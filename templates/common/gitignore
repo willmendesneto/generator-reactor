@@ -1,0 +1,37 @@
+node_modules/
+build/
+coverage/
+test-results.xml
+
+### Node Debug Log ###
+npm-debug.log
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+### Windows ###
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# App specific
+.tmp
+
+dist
+/src/main.js
