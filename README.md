@@ -1,4 +1,4 @@
-# generator-reactor
+# generator-reactor [![Build Status](https://snap-ci.com/willmendesneto/generator-reactor/branch/master/build_image)](https://snap-ci.com/willmendesneto/generator-reactor/branch/master)
 
 > Yeoman generator for [ReactJS](http://facebook.github.io/react/) - lets you quickly set up a project including karma test runner and [Webpack](http://webpack.github.io/) module system. Using Grunt, Bower and WebPack by default.
 
