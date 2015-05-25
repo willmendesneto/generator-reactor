@@ -75,6 +75,7 @@ Generator.prototype.reactComponentTemplate = function (src, dest) {
 };
 
 Generator.prototype.testTemplate = function (src, dest) {
+	dest = dest.replace('scripts/', '');
 	yeoman.generators.Base.prototype.template.apply(this, [
 		src + this.scriptSuffix,
 		path.join(this.options.testPath, dest) + this.scriptSuffix
