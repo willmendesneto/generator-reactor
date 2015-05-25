@@ -1,6 +1,6 @@
-# generator-reactor [![Build Status](https://secure.travis-ci.org/willmendesneto/generator-reactor.png?branch=master)](https://travis-ci.org/willmendesneto/generator-reactor)  [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+# generator-reactor
 
-> Yeoman generator for [ReactJS](http://facebook.github.io/react/) - lets you quickly set up a project including karma test runner and [Webpack](http://webpack.github.io/) module system.
+> Yeoman generator for [ReactJS](http://facebook.github.io/react/) - lets you quickly set up a project including karma test runner and [Webpack](http://webpack.github.io/) module system. Using Grunt, Bower and WebPack by default.
 
 
 ## Usage
