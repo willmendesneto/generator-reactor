@@ -10,7 +10,7 @@
   "mainInput": "<% if (reactRouter) { %>main<% } else { %><%= scriptAppName %><% } %>",
   "mainOutput": "main",
   "dependencies": {<% if (reactRouter) { %>
-    "react-router": "^0.11.6",<% } if (architecture === 'flux') { %>
+    "react-router-component": "^0.24.4",<% } if (architecture === 'flux') { %>
     "flux": "^2.0.1",
     "events": "^1.0.2",
     "object-assign": "^2.0.0", <% } if (architecture === 'reflux') {%>
@@ -44,15 +44,17 @@
     "load-grunt-tasks": "~0.6.0",
     "react-async": "^2.1.0",
     "react-hot-loader": "^1.2.7",
-    "react-router-component": "^0.24.4",
     "style-loader": "~0.8.0",
     "url-loader": "~0.5.5",
-    "webpack": "~1.4.3",
-    "webpack-dev-server": "~1.6.5",
     "grunt-contrib-clean": "~0.6.0",<% if (stylesLanguage.match(/s[ac]ss/)) { %>
     "sass-loader": "^1.0.1",<% } %><% if (stylesLanguage === 'less') { %>
     "less-loader": "^2.0.0",<% } %><% if (stylesLanguage === 'stylus') { %>
     "stylus-loader": "^0.5.0",<% } %>
+    "webpack": "~1.4.3",
+    "webpack-dev-server": "~1.6.5",
+    "connect-livereload": "^0.5.3",
+    "grunt-contrib-watch": "^0.6.1",
+    "jsx-loader": "^0.13.2"
   },
   "scripts": {
     "start:serve": "./node_modules/json-server/bin/index.js ./server/db.json"

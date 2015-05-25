@@ -71,8 +71,8 @@ describe('reactor generator', function() {
       react.run({}, function() {
         setTimeout(function() {
           helpers.assertFile([].concat(expected, [
-            'src/components/TempTestApp.js',
-            'src/components/main.js'
+            'src//scriptscomponents/TempTestApp.js',
+            'src//scriptscomponents/main.js'
           ]));
           done();
         });
@@ -148,7 +148,7 @@ describe('reactor generator', function() {
           ['webpack.dist.config.js', /resolve[\S\s]+alias[\S\s]+stores/m]
         ]);
 
-        assert.noFile('src/dispatcher/TempTestAppDispatcher.js');
+        assert.noFile('src//scriptsdispatcher/TempTestAppDispatcher.js');
 
         done();
       });
@@ -240,7 +240,7 @@ describe('reactor generator', function() {
 
     it('should have a Dispatcher generated', function(done) {
       setTimeout(function(){
-        assert.file('src/dispatcher/TempTestAppDispatcher.js');
+        assert.file('src//scriptsdispatcher/TempTestAppDispatcher.js');
 
         done();
       });
@@ -259,8 +259,8 @@ describe('reactor generator', function() {
         reactGenerator.run([], function() {
           helpers.assertFileContent([
 
-            [path.join('src', targetDirectory, name + '.js'), new RegExp('var ' + scriptNameFn(name) + suffix, 'g')],
-            [path.join('src', targetDirectory, name + '.js'), new RegExp('require\\(\'styles\\/' + name + suffix + '\\.[^\']+' + '\'\\)', 'g')],
+            [path.join('src/scripts', targetDirectory, name + '.js'), new RegExp('var ' + scriptNameFn(name) + suffix, 'g')],
+            [path.join('src/scripts', targetDirectory, name + '.js'), new RegExp('require\\(\'styles\\/' + name + suffix + '\\.[^\']+' + '\'\\)', 'g')],
             [path.join('test/spec', targetDirectory, 'TempTestApp' + '.js'), new RegExp('require\\(\'components\\/' + 'TempTestApp' + suffix + '\\.[^\']+' + '\'\\)', 'g')],
             [path.join('test/spec', targetDirectory, name + '.js'), new RegExp('require\\(\'components\\/' + name + suffix + '\\.[^\']+' + '\'\\)', 'g')],
             [path.join('test/spec', targetDirectory, name + '.js'), new RegExp('describe\\(\'' + specNameFn(name) + suffix + '\'', 'g')]
@@ -312,7 +312,7 @@ describe('reactor generator', function() {
 
     it('should generate a new action with tests', function(done) {
       assert.fileContent([
-        ['src/actions/TestActionCreators.js', /var TestActionCreators/g],
+        ['src/scripts/actions/TestActionCreators.js', /var TestActionCreators/g],
         ['test/spec/actions/TestActionCreators.js', /require\('actions\/TestActionCreators.js'\)/g],
         ['test/spec/actions/TestActionCreators.js', /describe\('TestActionCreators'/g]
       ]);
@@ -347,7 +347,7 @@ describe('reactor generator', function() {
 
     it('should generate a new store with tests', function(done) {
       assert.fileContent([
-        ['src/stores/TestStore.js', /var TestStore/g],
+        ['src/scripts/stores/TestStore.js', /var TestStore/g],
         ['test/spec/stores/TestStore.js', /require\('stores\/TestStore.js'\)/g],
         ['test/spec/stores/TestStore.js', /describe\('TestStore'/g]
       ]);

@@ -58,9 +58,9 @@ module.exports = function (config) {
       resolve: {
         alias: {
           'styles': path.join(process.cwd(), './src/styles/'),
-          'components': path.join(process.cwd(), './src/components/')<% if(architecture === 'flux'||architecture === 'reflux') { %>,
-          'stores': path.join(process.cwd(), './src/stores/'),
-          'actions': path.join(process.cwd(), './src/actions/')<% } %>
+          'components': path.join(process.cwd(), './src/scripts/components/')<% if(architecture === 'flux'||architecture === 'reflux') { %>,
+          'stores': path.join(process.cwd(), './src/scripts/stores/'),
+          'actions': path.join(process.cwd(), './src/scripts/actions/')<% } %>
         }
       }
     },

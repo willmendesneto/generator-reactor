@@ -34,6 +34,6 @@ StoreGenerator .prototype.createStoreFile  = function createStoreFile() {
   this.generateSourceAndTest(
     storeTemplate,
     'spec/Store',
-    'stores'
+    'scripts/stores'
   );
 };

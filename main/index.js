@@ -9,16 +9,10 @@ var MainGenerator = module.exports = function MainGenerator(args, options, confi
 
 util.inherits(MainGenerator, ScriptBase);
 
-MainGenerator.prototype.createAppFile = function createAppFile(scriptAppName) {
-  this.reactRouter = this.env.options.reactRouter;
-  this.scriptAppName = scriptAppName;
-  this.appTemplate('App', 'components/' + scriptAppName);
-  this.testTemplate('spec/App', 'components/' + scriptAppName);
-};
-
 MainGenerator.prototype.createMainFile = function createMainFile() {
+  this.reactRouter = this.env.options.reactRouter;
   if(this.env.options.reactRouter) {
-    this.appTemplate('main', 'components/main');
+    this.appTemplate('App', 'scripts/components/main');
   }
 };
 

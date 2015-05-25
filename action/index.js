@@ -31,6 +31,6 @@ ActionGenerator.prototype.createActionFile = function createActionFile() {
   this.generateSourceAndTest(
     actionTemplate,
     'spec/Action',
-    'actions'
+    'scripts/actions'
   );
 };

@@ -1,4 +1,5 @@
 'use strict';
+<% if (!reactRouter) { %>
 
 var React = require('react/addons');
 var ReactTransitionGroup = React.addons.TransitionGroup;
@@ -20,7 +21,27 @@ var <%= scriptAppName %> = React.createClass({
     );
   }
 });
-<% if (!reactRouter) {
-%>React.render(<<%= scriptAppName %> />, document.getElementById('content')); // jshint ignore:line
+
+// jshint ignore:line
+<% } else { %>
+
+var React = require('react'),
+    Router = require('./routers')
+;
+
+var App = React.createClass({
+  render: function () {
+    return (
+      <div className="container content">
+          <Router/>
+      </div>
+    );
+  }
+});
+
+React.render(
+  <App />,
+  document.getElementById('content')
+);
+
 <% } %>
-module.exports = <%= scriptAppName %>;

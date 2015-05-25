@@ -59,7 +59,7 @@ ReactorGenerator.prototype.askForReactRouter = function () {
   this.prompt({
     type    : 'confirm',
     name    : 'reactRouter',
-    message : 'Would you like to include react-router?',
+    message : 'Would you like to include react-router(using react-router-component)?',
     default : true
   }, function (props) {
     this.env.options.reactRouter = props.reactRouter;
@@ -74,11 +74,11 @@ ReactorGenerator.prototype.askForArchitecture  = function() {
     name    : 'architecture',
     message : 'Would you like to use one of those architectures?',
     choices: [
-      {name:'No need for that, thanks',value:false},
-      {name:'Flux',value:'flux'},
-      {name:'ReFlux',value:'reflux'}
+      {name:'Flux', value:'flux'},
+      {name:'ReFlux', value:'reflux'},
+      {name:'No need for that, thanks', value:false}
     ],
-    default : false
+    default : 'flux'
   }, function(props) {
     this.env.options.architecture = props.architecture;
     this.config.set('architecture', props.architecture);
@@ -103,6 +103,7 @@ ReactorGenerator.prototype.askForStylesLanguage = function () {
   }, function (props) {
     this.env.options.stylesLanguage = props.stylesLanguage;
     this.config.set('styles-language', props.stylesLanguage);
+    this.config.set('stylesLanguage', props.stylesLanguage);
     done();
   }.bind(this));
 };
@@ -122,20 +123,18 @@ ReactorGenerator.prototype.packageFiles = function () {
   this.architecture = this.env.options.architecture;
   this.stylesLanguage = this.env.options.stylesLanguage;
   this.template('../../templates/common/_package.json', 'package.json');
-  this.template('../../templates/common/_webpack.config.js', 'webpack.config.js');
-  this.template('../../templates/common/_webpack.dist.config.js', 'webpack.dist.config.js');
-  this.copy('../../templates/common/Gruntfile.js', 'Gruntfile.js');
+  this.template('../../templates/common/_Gruntfile.js', 'Gruntfile.js');
   this.copy('../../templates/common/gitignore', '.gitignore');
-};
-
-ReactorGenerator.prototype.styleFiles = function styleFiles() {
-  var mainFile = 'main.css';
-  this.copy('styles/' + mainFile, 'src/styles/' + mainFile);
 };
 
 ReactorGenerator.prototype.imageFiles = function () {
   this.sourceRoot(path.join(__dirname, 'templates'));
   this.directory('images', 'src/images', true);
+};
+
+ReactorGenerator.prototype.styleFiles = function () {
+  this.sourceRoot(path.join(__dirname, 'templates'));
+  this.directory('styles', 'src/styles', true);
 };
 
 ReactorGenerator.prototype.karmaFiles = function () {

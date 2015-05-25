@@ -19,7 +19,7 @@ ComponentGenerator.prototype.createComponentFile = function createComponentFile(
     'Component',
     'spec/Component',
     'styles/Component',
-    'components',
+    'scripts/components',
     true
   );
 };
