@@ -1,0 +1,8 @@
+{
+  "generator-reactor": {
+    "app-name": "tempTest",
+    "architecture": "flux",
+    "styles-language": "css",
+    "stylesLanguage": "css"
+  }
+}
