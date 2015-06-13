@@ -8,14 +8,10 @@ module.exports = function (config) {
     frameworks: ['jasmine'],
     files: [
       'test/{helpers,mocks}/**/*.js',
-      'test/spec/components/**/*.js'<% if(architecture === 'flux' || architecture === 'reflux') { %>,
-      'test/spec/stores/**/*.js',
-      'test/spec/actions/**/*.js'<% } %>
+      'test/spec/**/*.{js,jsx}'
     ],
     preprocessors: {
-      'test/spec/components/**/*.js': ['webpack']<% if(architecture === 'flux' || architecture === 'reflux') { %>,
-      'test/spec/stores/**/*.js': ['webpack'],
-      'test/spec/actions/**/*.js': ['webpack']<% } %>
+      'test/spec/**/*.{js,jsx}': ['webpack']
     },
     webpack: {
       cache: true,
@@ -53,11 +49,15 @@ module.exports = function (config) {
         }, {
           test: /\.woff2/,
           loader: 'url-loader?limit=10000&mimetype=application/font-woff2'
+        }, {
+          test: /\.jsx$/,
+          loader: 'jsx-loader?insertPragma=React.DOM&harmony'
         }]
       },
       resolve: {
         alias: {
           'styles': path.join(process.cwd(), './src/styles/'),
+          'helpers': path.join(process.cwd(), './src/scripts/helpers/'),
           'components': path.join(process.cwd(), './src/scripts/components/')<% if(architecture === 'flux'||architecture === 'reflux') { %>,
           'stores': path.join(process.cwd(), './src/scripts/stores/'),
           'actions': path.join(process.cwd(), './src/scripts/actions/')<% } %>
