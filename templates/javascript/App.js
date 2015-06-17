@@ -1,7 +1,7 @@
 'use strict';
 <% if (!reactRouter) { %>
 
-var React = require('react/addons');
+var React = require('react');
 var ReactTransitionGroup = React.addons.TransitionGroup;
 
 // CSS
@@ -33,7 +33,7 @@ var App = React.createClass({
   render: function () {
     return (
       <div className="container content">
-          <Router/>
+        <Router/>
       </div>
     );
   }

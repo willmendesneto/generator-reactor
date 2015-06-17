@@ -101,8 +101,13 @@ Generator.prototype.generateSourceAndTest = function (appTemplate, testTemplate,
 	this.testTemplate(testTemplate, path.join(targetDirectory, this._.capitalizeFile(this.name)));
 };
 
-Generator.prototype.generateComponentTestAndStyle = function (componentTemplate, testTemplate, stylesTemplate, targetDirectory) {
-  this.reactComponentTemplate(componentTemplate, path.join(targetDirectory, this._.capitalizeFile(this.name)));
+Generator.prototype.generateComponentTestAndStyle = function (componentTemplate, testTemplate, targetDirectory, stylesTemplate) {
+	stylesTemplate = typeof stylesTemplate !== 'undefined' ? !!stylesTemplate : false;
+
+	this.reactComponentTemplate(componentTemplate, path.join(targetDirectory, this._.capitalizeFile(this.name)));
   this.testTemplate(testTemplate, path.join(targetDirectory, this._.capitalizeFile(this.name)));
-  this.stylesTemplate(stylesTemplate, path.join(this._.capitalizeFile(this.name)));
+
+	if (!!stylesTemplate) {
+		this.stylesTemplate(stylesTemplate, path.join(this._.capitalizeFile(this.name)));
+	}
 };

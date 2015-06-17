@@ -17,7 +17,7 @@ MainGenerator.prototype.createMainFile = function createMainFile() {
 };
 
 MainGenerator.prototype.createDispatcher = function createDispatcher() {
-  if(this.env.options.architecture=='flux') {
-    this.appTemplate('Dispatcher', 'dispatcher/' + this.scriptAppName + 'Dispatcher');
+  if(this.env.options.architecture === 'flux') {
+    this.appTemplate('Dispatcher', 'scripts/dispatcher/' + this.scriptAppName + 'Dispatcher');
   }
 };
