@@ -96,7 +96,16 @@ describe('Foo', function () {
 });
 ```
 
-And `src/styles/Foo.css` (or .sass, .less etc...) :
+### Create stylesheet of component
+
+You can add a stylesheet file for your new component using - `style` flag:
+
+```bash
+yo reactor:c foo --style
+```
+
+And `src/styles/Foo.css` (or .sass, .less etc...) will be created:
+
 ```
 .Foo{
   border: 1px dashed #f00;
@@ -107,7 +116,7 @@ And `src/styles/Foo.css` (or .sass, .less etc...) :
 
 For all you lazy programmers out there, we've added another shortcut - `rich` flag:
 ```bash
-yo reactor:c foofoo --rich
+yo reactor:c foo --rich
 ```
 This will give you all of react component's most common stuff :
  ````
@@ -350,9 +359,9 @@ Each component is a module and can be required using the [Webpack](http://webpac
 
 Out the box the [Gruntfile](http://gruntjs.com/api/grunt.file) is configured with the following:
 
-1. **webpack**: uses the [grunt-webpack](https://github.com/webpack/grunt-webpack) plugin to load all required modules and output to a single JS file `src/main.js`. This is included in the `src/index.html` file by default and will reload in the browser as and when it is recompiled.
+1. **webpack**: uses the [grunt-webpack](https://github.com/webpack/grunt-webpack) plugin to load all required modules and output to a single JS file `src/scripts/main.js`. This is included in the `src/index.html` file by default and will reload in the browser as and when it is recompiled.
 2. **webpack-dev-server**: uses the [webpack-dev-server](https://github.com/webpack/webpack-dev-server) to watch for file changes and also serve the webpack app in development.
-3. **connect**: uses the [grunt-connect](https://github.com/gruntjs/grunt-contrib-connect) plugin to start a webserver at [localhost](http://localhost:8000).
+3. **browser-sync**: uses the [grunt-browser-sync](https://github.com/BrowserSync/grunt-browser-sync) plugin to start a webserver based in [ip of your machine](http://<your-ip>:3000).
 4. **karma**: uses the [grunt-karma](https://github.com/karma-runner/grunt-karma) plugin to load the Karma configuration file `karma.conf.js` located in the project root. This will run all tests using [PhantomJS](http://phantomjs.org/) by default but supports many other browsers.
 
 ### CSS

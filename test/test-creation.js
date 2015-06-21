@@ -22,7 +22,8 @@ describe('reactor generator', function() {
     //'appPath': 'src',
     'skip-install': true,
     'skip-welcome-message': true,
-    'skip-message': true
+    'skip-message': true,
+    '--force': true
   };
   var deps = [
     '../../app',
