@@ -191,6 +191,22 @@ module.exports = function (grunt) {
         dotfiles: true
       },
       src: '**/*'
+    },
+
+    browserSync: {
+      dev: {
+        bsFiles: {
+          src : [
+            './<%= pkg.src %>/scripts/**/*.{js,html}',
+            './<%= pkg.src %>/styles/*.css',
+            './<%= pkg.src %>/*.html'
+          ]
+        },
+        options: {
+          watchTask: true,
+          server: './<%= pkg.src %>'
+        }
+      }
     }
   });
 
@@ -226,9 +242,10 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
-      'connect:livereload',
+      'browserSync',
+      //'connect:livereload',
       'webpack:development',
-      'open',
+      //'open',
       'watch'
     ]);
   });
