@@ -30,7 +30,7 @@ module.exports = function (grunt) {
     test: /\.png/,
     loader: 'url-loader?limit=10000&minetype=image/png'
   }, {
-    test: /\.js$/,
+    test: /\.(js|jsx)$/,
     loader: 'jsx-loader'
   }, <% if (stylesLanguage === 'sass') { %> {
     test: /\.sass/,
@@ -194,6 +194,32 @@ module.exports = function (grunt) {
     }
   });
 
+  var deleteFolder = function(folder){
+    var fs = require('fs');
+
+    if( fs.existsSync(folder) ) {
+      fs.readdirSync(folder).forEach(function(file, index){
+        var curPath = folder + '/' + file;
+        if(fs.lstatSync(curPath).isDirectory()) { // recurse
+          deleteFolder(curPath);
+        } else { // delete file
+          fs.unlinkSync(curPath);
+        }
+      });
+      fs.rmdirSync(folder);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  grunt.registerTask('deleteFolder', 'Task for remove a specific folder.', function(folder) {
+    var message = deleteFolder(folder) ?
+                    'Folder "' + folder + '" was removed.' :
+                    'Folder "' + folder + '" wasn\'t removed or doesn\'t exist!';
+    console.log(message);
+  });
+
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
@@ -210,6 +236,8 @@ module.exports = function (grunt) {
   grunt.registerTask('test', ['karma']);
 
   grunt.registerTask('build', ['clean', 'copy', 'webpack']);
+
+  grunt.registerTask('ghpages', ['build', 'gh-pages', 'deleteFolder:./dist', 'deleteFolder:./.grunt']);
 
   grunt.registerTask('default', []);
 };
