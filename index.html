@@ -3,17 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>TestApp</title>
+  <title>Generator Reactor</title>
   <meta name="description" content="">
   <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="styles/loader.css">
   <link rel="stylesheet" href="styles/cards.css">
   <link rel="stylesheet" href="styles/main-header.css">
-
 </head>
-<body>
+<body >
+  <div id="load-content">
+    <div class="loader">Loading...</div>
+  </div>
   <div class="wrap">
     <svg width="100%" height="300px" viewBox="0 0 1200 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <g class="curve" stroke="#FAFAFA" fill="none" fill-rule="evenodd" transform="translate(0,90)">
@@ -34,10 +37,29 @@
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
   <div id="content">
-    <h1>If you can see this, something is broken (or JS is not enabled)!!.</h1>
+    <noscript><h1>If you can see this, something is broken (or JS is not enabled)!!.</h1></noscript>
   </div>
 
   <script>
+  window.onload = function(e){
+    setTimeout(function(){
+
+      var node = document.getElementById('load-content');
+      node.style.display = 'block';
+      var opacity = 10;
+      function frame() {
+        opacity -= 1;
+        node.style.opacity = '.' + opacity;
+        if (opacity === 1) {
+          node.style.opacity = opacity;
+          clearInterval(id);
+          node.parentNode.removeChild(node);
+        }
+      }
+
+      var id = setInterval(frame, 30);
+    }, 800);
+  };
     __REACT_DEVTOOLS_GLOBAL_HOOK__ = parent.__REACT_DEVTOOLS_GLOBAL_HOOK__
   </script>
   <script type="text/javascript" src="scripts/main.js"></script>
