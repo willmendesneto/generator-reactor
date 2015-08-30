@@ -133,3 +133,6 @@
     background-color: #0097a7;
     border: #0097a7;
 }
+.card-item{
+  min-height: 500px;
+}

@@ -9,10 +9,22 @@ var CardStore = {
     return jQuery.get(AppConstants.CARDS_URL);
   },
 
-  findById: function(cardId) {
+  findById: findByIdMock
+
+};
+
+function findByIdMock(cardId) {
+  if (!AppConstants.GH_PAGES) {
     return jQuery.get(AppConstants.CARDS_URL + '/' + cardId);
   }
 
-};
+  var dfd = jQuery.Deferred();
+  jQuery.get(AppConstants.CARDS_URL).then(function(data) {
+    dfd.resolve(data.filter(function(item){
+      return parseInt(item.id) === parseInt(cardId);
+    })[0]);
+  });
+  return dfd.promise();
+}
 
 module.exports = CardStore;

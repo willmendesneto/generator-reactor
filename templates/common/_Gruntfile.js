@@ -142,6 +142,14 @@ module.exports = function (grunt) {
     },
 
     copy: {
+      ghPages: {
+        files: [
+          {
+            src: '<%= pkg.src %>/../server/mock-db.json',
+            dest: '<%= pkg.dist %>/db.json'
+          }
+        ]
+      },
       dist: {
         files: [
           // includes files within path
@@ -253,9 +261,9 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', ['karma']);
 
-  grunt.registerTask('build', ['clean', 'copy', 'webpack']);
+  grunt.registerTask('build', ['clean', 'copy:dist', 'webpack']);
 
-  grunt.registerTask('ghpages', ['build', 'gh-pages', 'deleteFolder:./dist', 'deleteFolder:./.grunt']);
+  grunt.registerTask('ghpages', ['build', 'copy:ghPages', 'gh-pages', 'deleteFolder:./dist', 'deleteFolder:./.grunt']);
 
   grunt.registerTask('default', []);
 };

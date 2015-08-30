@@ -29,7 +29,7 @@ var CardItem = React.createClass({
 
   render: function() {
     return (
-      <div className="col-sm-12">
+      <div className="col-sm-12 card-item">
           <h2>{this.state.item.name}</h2>
           <img className="card-item-image clearfix" src={this.state.item.image}
               alt={this.state.item.name}

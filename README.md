@@ -3,6 +3,11 @@
 > Yeoman generator for [ReactJS](http://facebook.github.io/react/) - lets you quickly set up a project including karma test runner and [Webpack](http://webpack.github.io/) module system. Using Grunt, Bower and WebPack by default.
 
 
+## Example
+
+[http://willmendesneto.github.io/generator-reactor/](http://willmendesneto.github.io/generator-reactor/)
+
+
 ## Usage
 
 Install `generator-reactor`:
@@ -21,6 +26,7 @@ yo reactor [app-name]
 ```
 
 Run `grunt build` for building and `grunt serve` for preview in the browser at [localhost](http://localhost:8000).
+
 
 ## Generators
 
