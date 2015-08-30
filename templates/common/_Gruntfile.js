@@ -15,7 +15,7 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
 
   // Read configuration from package.json
-  var pkgConfig = grunt.file.readJSON('package.json');
+  var pkg = grunt.file.readJSON('package.json');
   var jshintConfig = grunt.file.readJSON('.jshintrc');
   var loaders = [{
     test: /\.css$/,
@@ -53,7 +53,6 @@ module.exports = function (grunt) {
   }];
 
   grunt.initConfig({
-    pkg: pkgConfig,
 
     webpack: {
       development: {
@@ -197,14 +196,14 @@ module.exports = function (grunt) {
       dev: {
         bsFiles: {
           src : [
-            './<%= pkg.src %>/scripts/**/*.{js,html}',
-            './<%= pkg.src %>/styles/*.css',
-            './<%= pkg.src %>/*.html'
+            './<%%= pkg.src %>/scripts/**/*.{js,html}',
+            './<%%= pkg.src %>/styles/*.css',
+            './<%%= pkg.src %>/*.html'
           ]
         },
         options: {
           watchTask: true,
-          server: './<%= pkg.src %>'
+          server: './<%%= pkg.src %>'
         }
       }
     }

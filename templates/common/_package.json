@@ -58,6 +58,7 @@
     "jsx-loader": "^0.13.2"
   },
   "scripts": {
+    "start": "npm run start:serve & grunt serve",
     "start:serve": "./node_modules/json-server/bin/index.js ./server/db.json"
   }
 }
