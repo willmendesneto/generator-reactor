@@ -88,4 +88,4 @@ var commonConfig = {
   }
 };
 
-module.exports = merge(commonConfig, (NODE_ENV === 'development' ? getDevConfig() : getProdConfig());
+module.exports = merge(commonConfig, (NODE_ENV === 'development' ? getDevConfig() : getProdConfig()));
