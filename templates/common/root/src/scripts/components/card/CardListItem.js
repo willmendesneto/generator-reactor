@@ -1,14 +1,16 @@
 'use strict';
 
-var React = require('react');
-var Link = require('react-router-component').Link;
-var UrlHelper = require('../../helpers/UrlHelper');
+import React from 'react';
+import { Link } from 'react-router';
+import UrlHelper from '../../helpers/UrlHelper';
 
-var CardListItem = React.createClass({
+import './cards.scss';
 
-  render: function() {
+export default React.createClass({
 
-    var url = '/cards/' + this.props.id + '/' +
+  render() {
+
+    const url = '/cards/' + this.props.id + '/' +
               UrlHelper.generateUrlFriendly(this.props.name);
 
     return (
@@ -29,8 +31,8 @@ var CardListItem = React.createClass({
             <div className="desc">{this.props.description}</div>
           </div>
           <div className="card-bottom">
-            <Link className="btn btn-primary btn-sm" href={url}>
-                + MORE
+            <Link className="btn btn-primary btn-sm" to={url}>
+              + MORE
             </Link>
           </div>
         </div>
@@ -38,6 +40,4 @@ var CardListItem = React.createClass({
     );
   }
 
-});
-
-module.exports = CardListItem;
+})

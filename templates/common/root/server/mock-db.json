@@ -7,20 +7,6 @@
     "image": "http://willmendesneto.github.io/generator-reactor/images/yeoman.png"
   },
   {
-    "id": 2,
-    "name": "Grunt",
-    "website": "http://gruntjs.com",
-    "description": "The Build System is used to build, preview and test your project. Grunt and Gulp are two popular options.",
-    "image": "http://willmendesneto.github.io/generator-reactor/images/grunt.png"
-  },
-  {
-    "id": 3,
-    "name": "Bower",
-    "website": "http://bower.io",
-    "description": "The Package Manager is used for dependency management, so that you no longer have to manually download and manage your scripts. Bower and npm are two popular options.",
-    "image": "http://willmendesneto.github.io/generator-reactor/images/bower.png"
-  },
-  {
     "id": 4,
     "name": "Webpack",
     "website": "http://webpack.github.io",

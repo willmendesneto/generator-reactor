@@ -1,30 +1,26 @@
 'use strict';
 
-var React         = require('react');
-var AppConstants      = require('../../constants/AppConstants');
-var jQuery = require('jQuery');
+import React         from 'react';
+import AppConstants      from '../../constants/AppConstants';
+import $ from 'jquery';
 
-var CardStore = {
-  getAll: function() {
-    return jQuery.get(AppConstants.CARDS_URL);
+let CardStore = {
+  getAll: () => {
+    return $.get(AppConstants.CARDS_URL);
   },
+  findById: (cardId) => {
+    if (!AppConstants.GH_PAGES) {
+      return $.get(AppConstants.CARDS_URL + '/' + cardId);
+    }
 
-  findById: findByIdMock
-
+    var dfd = $.Deferred();
+    $.get(AppConstants.CARDS_URL).then((data) => {
+      dfd.resolve(data.filter(function(item){
+        return parseInt(item.id) === parseInt(cardId);
+      })[0]);
+    });
+    return dfd.promise();
+  }
 };
 
-function findByIdMock(cardId) {
-  if (!AppConstants.GH_PAGES) {
-    return jQuery.get(AppConstants.CARDS_URL + '/' + cardId);
-  }
-
-  var dfd = jQuery.Deferred();
-  jQuery.get(AppConstants.CARDS_URL).then(function(data) {
-    dfd.resolve(data.filter(function(item){
-      return parseInt(item.id) === parseInt(cardId);
-    })[0]);
-  });
-  return dfd.promise();
-}
-
-module.exports = CardStore;
+export default CardStore;

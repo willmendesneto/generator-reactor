@@ -13,11 +13,9 @@ ComponentGenerator.prototype.createComponentFile = function createComponentFile(
   this.option('rich');
   this.option('style');
 
-  this.es6 = this.options.es6;
+  this.es6 = true;
   this.rich = this.options.rich;
   this.style = typeof this.options.style !== 'undefined';
-
-  console.log(typeof this.options.style);
 
   var createWithStylesheet = this.style;
 

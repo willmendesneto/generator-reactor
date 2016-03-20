@@ -118,13 +118,22 @@ ReactorGenerator.prototype.createIndexHtml = function createIndexHtml() {
 };
 
 ReactorGenerator.prototype.packageFiles = function () {
-  this.es6 = this.options.es6;
+  this.es6 = true;
   this.reactRouter = this.env.options.reactRouter;
   this.architecture = this.env.options.architecture;
   this.stylesLanguage = this.env.options.stylesLanguage;
-  this.template('../../templates/common/_package.json', 'package.json');
-  this.template('../../templates/common/_Gruntfile.js', 'Gruntfile.js');
-  this.copy('../../templates/common/gitignore', '.gitignore');
+  this.copy(__dirname + '/../templates/common/babelrc', '.babelrc');
+  this.copy(__dirname + '/../templates/common/editorconfig', '.editorconfig');
+  this.copy(__dirname + '/../templates/common/eslintignore', '.eslintignore');
+  this.copy(__dirname + '/../templates/common/gitignore', '.gitignore');
+  this.copy(__dirname + '/../templates/common/jshintrc', '.jshintrc');
+  this.copy(__dirname + '/../templates/common/nvmrc', '.nvmrc');
+  this.copy(__dirname + '/../templates/common/Makefile', 'Makefile');
+  this.template(__dirname + '/../templates/common/_package.json', 'package.json');
+  this.template(__dirname + '/../templates/common/webpack.config.js', 'webpack.config.js');
+  this.template(__dirname + '/../templates/common/webpack.development.js', 'webpack.development.js');
+  this.template(__dirname + '/../templates/common/webpack.production.js', 'webpack.production.js');
+  this.template(__dirname + '/../templates/common/webpack.production.js', 'webpack.production.js');
 };
 
 ReactorGenerator.prototype.imageFiles = function () {
@@ -138,5 +147,5 @@ ReactorGenerator.prototype.styleFiles = function () {
 };
 
 ReactorGenerator.prototype.karmaFiles = function () {
-  this.copy('../../templates/common/karma.conf.js', 'karma.conf.js');
+  this.copy(__dirname + '/../templates/common/karma.conf.js', 'karma.conf.js');
 };

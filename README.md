@@ -25,7 +25,7 @@ Run `yo reactor`, optionally passing an app name:
 yo reactor [app-name]
 ```
 
-Run `grunt build` for building and `grunt serve` for preview in the browser at [localhost](http://localhost:8000).
+Run `npm run build` for building and `npm run start-dist` for preview in the browser at [localhost](http://localhost:8000).
 
 
 ## Generators
@@ -44,10 +44,9 @@ and for **Flux** or **Reflux** :
 
 Sets up a new ReactJS app, generating all the boilerplate you need to get started. The app generator also facilitates the following:
 
-1. Configures a Gruntfile to run the app on a local server.
-2. Configures Webpack to modularise the app enabling [loading of various file formats](http://webpack.github.io/docs/loader-list.html) e.g. JSON, CSS, PNG, etc.
-3. Configures [Karma](http://karma-runner.github.io) to run all tests.
-4. Watches for changes and recompiles JS and refreshes the browser.
+1. Configures Webpack to modularise the app enabling [loading of various file formats](http://webpack.github.io/docs/loader-list.html) e.g. JSON, CSS, PNG, etc.
+2. Configures [Karma](http://karma-runner.github.io) to run all tests.
+3. Watches for changes and recompiles JS and refreshes the browser.
 
 Example:
 ```bash
@@ -299,7 +298,7 @@ If you are using `es6`, and want to use its export functionality (and not webpac
 
 ## Testing
 
-Running `grunt test` will run the unit tests with karma. Tests are written using [Jasmine](http://jasmine.github.io/) by default.
+Running `npm test` will run the unit tests with karma. Tests are written using [Jasmine](http://jasmine.github.io/) by default.
 
 ## Further Information
 
@@ -344,11 +343,12 @@ project
       - react
         addons.js
       phantomjs-shims.js
-  Gruntfile.js
+  Makefile
   karma.conf.js
   package.json
   webpack.config.js
-  webpack.dist.config.js
+  webpack.development.js
+  webpack.production.js
 ```
 
 I have tried to keep the project structure as simple as possible and understand it may not suit everyone.
@@ -361,28 +361,18 @@ I have opted to follow [@floydophone](https://twitter.com/floydophone) conventio
 
 Each component is a module and can be required using the [Webpack](http://webpack.github.io/) module system. [Webpack](http://webpack.github.io/) uses [Loaders](http://webpack.github.io/docs/loaders.html) which means you can also require CSS and a host of other file types. Read the [Webpack documentation](http://webpack.github.io/docs/home.html) to find out more.
 
-### Grunt
+### NPM Scripts
 
-Out the box the [Gruntfile](http://gruntjs.com/api/grunt.file) is configured with the following:
+Out the box, the generator uses [npm scripts](https://docs.npmjs.com/misc/scripts) configured with the following:
 
-1. **webpack**: uses the [grunt-webpack](https://github.com/webpack/grunt-webpack) plugin to load all required modules and output to a single JS file `src/scripts/main.js`. This is included in the `src/index.html` file by default and will reload in the browser as and when it is recompiled.
+1. **webpack**: uses the [webpack](https://webpack.github.io/) to load all required modules and output to a single JS file `src/scripts/components/main.js`. This is included in the `src/index.html` file by default and will reload in the browser as and when it is recompiled.
 2. **webpack-dev-server**: uses the [webpack-dev-server](https://github.com/webpack/webpack-dev-server) to watch for file changes and also serve the webpack app in development.
-3. **browser-sync**: uses the [grunt-browser-sync](https://github.com/BrowserSync/grunt-browser-sync) plugin to start a webserver based in [ip of your machine](http://<your-ip>:3000).
-4. **karma**: uses the [grunt-karma](https://github.com/karma-runner/grunt-karma) plugin to load the Karma configuration file `karma.conf.js` located in the project root. This will run all tests using [PhantomJS](http://phantomjs.org/) by default but supports many other browsers.
+3. **karma**: uses the [karma](https://github.com/karma-runner/grunt-karma) to load the Karma configuration file `karma.conf.js` located in the project root. This will run all tests using [PhantomJS](http://phantomjs.org/) by default but supports many other browsers.
+4. **editorconfig-tool**: check and validate all files application (`src` and `test` folders) based in `.editorconfig` params.
 
 ### CSS
 
 Included in the project is the [normalize.css](http://necolas.github.io/normalize.css/) script. There is also a `src/styles/main.css` script that's required by the core `src/components/App.js` component using Webpack.
-
-### JSHint
-
-Please use [JSXHint](https://github.com/STRML/JSXHint) for linting JSX and the corresponding Sublime package if using SLT3 [SublimeLinter-jsxhint](https://github.com/SublimeLinter/SublimeLinter-jsxhint). Note this is a global npm install and JSX files will need to be associated with the JSX file type withing SLT3.
-
-## Props
-
-Thanks to all who contributed to [generator-angular](https://github.com/yeoman/generator-angular) as the majority of code here has been shamelessy sourced from that repos.
-
-Thanks to [Edd Hannay](https://github.com/eddhannay) for his Webpack optimisations, my local merge and testing meant his additions lost his signature (my fault sorry) so big thanks Edd.
 
 ## Contribute
 
@@ -391,9 +381,3 @@ Contributions are welcomed. When submitting a bugfix, write a test that exposes 
 ### Running Tests
 
 `node node_modules/.bin/mocha`
-
-## License
-
-[BSD license](http://opensource.org/licenses/bsd-license.php)
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/willmendesneto/generator-reactor/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

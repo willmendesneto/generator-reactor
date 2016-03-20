@@ -1,32 +1,35 @@
 'use strict';
 
-var React         = require('react');
-var CardList      = require('./CardList');
-var CardStore      = require('../../stores/card/CardStore');
+import React from 'react';
+import CardList from './CardList';
+import CardStore from '../../stores/card/CardStore';
 
-var Card = React.createClass({
+import './cards.scss';
 
-  getInitialState: function() {
-    return {
-      items: []
-    };
-  },
+export default class Card extends React.Component {
 
-  componentDidMount: function() {
+  constructor(props, context) {
+    super(props, context);
+    this.state = { items: [] };
+  }
+
+  componentDidMount() {
     this.loadData();
-  },
+  }
 
-  loadData: function() {
-    CardStore.getAll().then(function(items) {
-      if (this.isMounted()) {
-        this.setState({
-          items: items
-        });
-      }
-    }.bind(this));
-  },
+  componentWillUnmount() {
+    this.state = { items: [] };
+  }
 
-  render: function() {
+  loadData() {
+    CardStore.getAll().then(items => {
+      this.setState({
+        items: items
+      });
+    }, this);
+  }
+
+  render() {
     return (
         <div>
           <br />
@@ -35,7 +38,4 @@ var Card = React.createClass({
         </div>
     );
   }
-
-});
-
-module.exports = Card;
+}

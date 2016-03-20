@@ -1,18 +1,25 @@
 'use strict';
 
-var React = require('react'),
-    CardListItem = require('./CardListItem');
+import React from 'react';
+import CardListItem from './CardListItem';
 
-var CardList = React.createClass({
+import './cards.scss';
 
-  render: function() {
+export default React.createClass({
 
-    var CardListItems = this.props.items.map(function(item) {
-      return <CardListItem id={item.id}
-                       name={item.name}
-                       description={item.description}
-                       image={item.image} />;
-    }.bind(this));
+  propTypes: {
+    items: React.PropTypes.array.isRequired
+  },
+
+  render() {
+    let CardListItems = this.props.items.map(item => {
+      return <CardListItem
+                id={item.id}
+                key={item.id}
+                name={item.name}
+                description={item.description}
+                image={item.image} />;
+    }, this);
 
     return (
       <div className="container">
@@ -22,7 +29,4 @@ var CardList = React.createClass({
       </div>
     );
   }
-
-});
-
-module.exports = CardList;
+})

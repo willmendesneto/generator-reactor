@@ -1,44 +1,50 @@
 'use strict';
 
-describe('CardListItem', function () {
-  var React = require('react/addons'),
-      TestUtils = React.addons.TestUtils;
-  var CardListItem, component, item, renderedComponent;
+import CardListItem from 'components/card/CardListItem';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
 
-  beforeEach(function () {
-    CardListItem = require('components/card/CardListItem.js');
+describe('CardListItem', () => {
+  let item, renderedComponent;
+
+  beforeEach(() => {
     item = MockApp.getCardItem();
-    component = React.createElement(CardListItem, item);
-    renderedComponent = TestUtils.renderIntoDocument(component);
+    let node = document.createElement('div');
+    renderedComponent = ReactDOM.render(
+      <CardListItem
+        id={item.id}
+        key={item.id}
+        name={item.name}
+        description={item.description}
+        image={item.image} />
+    , node);
   });
 
-  afterEach(function() {
-    React.unmountComponentAtNode(document);
+  afterEach(() => {
+    ReactDOM.unmountComponentAtNode(document);
   });
 
-  it('should create a new instance of CardListItem with all props', function () {
-    expect(component).toBeDefined();
-
-    expect(Object.keys(component.props).length).toBe(5);
-    expect(component.props.id).toBe(item.id);
-    expect(component.props.name).toBe(item.name);
-    expect(component.props.website).toBe(item.website);
-    expect(component.props.description).toBe(item.description);
-    expect(component.props.image).toBe(item.image);
+  it('should create a new instance of CardListItem with all props', () => {
+    expect(Object.keys(renderedComponent.props).length).toBe(4);
+    expect(renderedComponent.props.id).toBe(item.id);
+    expect(renderedComponent.props.name).toBe(item.name);
+    expect(renderedComponent.props.description).toBe(item.description);
+    expect(renderedComponent.props.image).toBe(item.image);
   });
 
-  it('should render props info in component', function() {
-    var image = TestUtils.findRenderedDOMComponentWithClass(renderedComponent, 'card-image');
+  it('should render props info in component', () => {
+    const image = TestUtils.findRenderedDOMComponentWithClass(renderedComponent, 'card-image');
 
-    expect(image.props.src).toBe(component.props.image);
-    expect(image.props.alt).toBe(component.props.name);
-    expect(image.props.title).toBe(component.props.name);
+    expect(image.props.src).toBe(renderedComponent.props.image);
+    expect(image.props.alt).toBe(renderedComponent.props.name);
+    expect(image.props.title).toBe(renderedComponent.props.name);
 
-    var title = TestUtils.findRenderedDOMComponentWithClass(renderedComponent, 'title');
-    expect(title.getDOMNode().textContent).toBe(component.props.name);
+    const title = TestUtils.findRenderedDOMComponentWithClass(renderedComponent, 'title');
+    expect(title.getDOMNode().textContent).toBe(renderedComponent.props.name);
 
-    var desc = TestUtils.findRenderedDOMComponentWithClass(renderedComponent, 'desc');
-    expect(desc.getDOMNode().textContent).toBe(component.props.description);
+    const desc = TestUtils.findRenderedDOMComponentWithClass(renderedComponent, 'desc');
+    expect(desc.getDOMNode().textContent).toBe(renderedComponent.props.description);
   });
 
 });

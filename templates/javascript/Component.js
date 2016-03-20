@@ -5,11 +5,11 @@ var Reflux = require('Reflux'); <%}%>
 <% if(rich && architecture === 'flux' || architecture === 'reflux'){%>
 //var Actions = require('actions/xxx')
 <%}%>
-<% if (!!style && stylesLanguage === 'css') { %>require('styles/<%= classedFileName %>.css');<% } %><%
-if (!!style && stylesLanguage === 'sass')   { %>require('styles/<%= classedFileName %>.sass');<% } %><%
-if (!!style && stylesLanguage === 'scss')   { %>require('styles/<%= classedFileName %>.scss');<% } %><%
-if (!!style && stylesLanguage === 'less')   { %>require('styles/<%= classedFileName %>.less');<% } %><%
-if (!!style && stylesLanguage === 'stylus') { %>require('styles/<%= classedFileName %>.styl');<% } %>
+<% if (!!style && stylesLanguage === 'sass')   { %>require('styles/<%= classedFileName %>.sass');
+<% } else if (!!style && stylesLanguage === 'scss')   { %>require('styles/<%= classedFileName %>.scss');
+<% } else if (!!style && stylesLanguage === 'less')   { %>require('styles/<%= classedFileName %>.less');
+<% } else if (!!style && stylesLanguage === 'stylus') { %>require('styles/<%= classedFileName %>.styl');
+<% } else { %>require('styles/<%= classedFileName %>.css');<% } %>
 
 var <%= classedName %> = React.createClass({<% if(rich){%>
   mixins: [<% if(architecture === 'reflux'){%>Reflux.ListenerMixin<%}%>],

@@ -1,39 +1,41 @@
 'use strict';
 
-describe('CardList', function () {
-  var React = require('react/addons'),
-      TestUtils = React.addons.TestUtils;
-  var CardStore = require('stores/card/CardStore.js');
-  var CardList, component, renderedComponent, items;
+import CardListItem from 'components/card/CardListItem';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
+import CardList from 'components/card/CardList';
 
-  beforeEach(function () {
-    CardList = require('components/card/CardList.js');
+describe('CardList', () => {
+  let renderedComponent, items;
+
+  beforeEach(() => {
     items = MockApp.getCardListItem();
-    component = React.createElement(CardList, {items: items});
-    renderedComponent = TestUtils.renderIntoDocument(component);
+
+    let node = document.createElement('div');
+    renderedComponent = ReactDOM.render(<CardList items={items}/>, node);
   });
 
   afterEach(function() {
-    React.unmountComponentAtNode(document);
+    ReactDOM.unmountComponentAtNode(document);
   });
 
-  it('should create a new instance of CardList with all props', function () {
-    expect(component).toBeDefined();
-    expect(component.props.items.length).toBe(items.length);
+  it('should create a new instance of CardList with all props', () => {
+    expect(renderedComponent.props.items.length).toBe(items.length);
 
-    expect(component.props.items[0].id).toBe(items[0].id);
-    expect(component.props.items[0].name).toBe(items[0].name);
-    expect(component.props.items[0].website).toBe(items[0].website);
-    expect(component.props.items[0].description).toBe(items[0].description);
-    expect(component.props.items[0].image).toBe(items[0].image);
+    items.forEach((item, index) => {
+      expect(renderedComponent.props.items[index].id).toBe(item.id);
+      expect(renderedComponent.props.items[index].name).toBe(item.name);
+      expect(renderedComponent.props.items[index].website).toBe(item.website);
+      expect(renderedComponent.props.items[index].description).toBe(item.description);
+      expect(renderedComponent.props.items[index].image).toBe(item.image);
+    });
   });
 
-
-  it('should render instances of CardListItems based in props "items" ', function () {
-    var CardListItem = require('components/card/CardListItem.js');
-    var cards = TestUtils.scryRenderedComponentsWithType(renderedComponent, CardListItem);
-
-    expect(cards.length).toBe(component.props.items.length);
+  it('should render instances of CardListItems based in props "items" ', () => {
+    const cards = TestUtils.scryRenderedComponentsWithType(renderedComponent, CardListItem);
+    expect(cards.length).toBe(renderedComponent.props.items.length);
+    expect(cards.length).toBe(items.length);
   });
 
 });

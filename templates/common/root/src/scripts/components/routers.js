@@ -1,37 +1,33 @@
 'use strict';
 
-var React    = require('react'),
-    Router   = require('react-router-component'),
-    Card = require('./card/Card'),
-    CardItem = require('./card/CardItem')
-;
+import Card from './card/Card';
+import CardItem from './card/CardItem';
+import React from 'react';
+import { render } from 'react-dom';
+import { Router, Route, IndexRoute, useRouterHistory } from 'react-router';
+import { createHashHistory } from 'history'
+const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 
-var Locations = Router.Locations,
-    Location = Router.Location,
-    NotFound = Router.NotFound,
-    Link = Router.Link;
-
-var NotFoundPage = React.createClass({
+let NotFoundPage = React.createClass({
   render: function() {
     return (
       <div>
         Sorry! Page is not found.
-        Back to <Link href="/">home page</Link>.
+        Back to <Link to={`/`}>home page</Link>.
       </div>
     );
   }
 });
 
-var Content = React.createClass({
+let Content = React.createClass({
   render: function() {
     return (
-      <Locations hash>
-        <Location path="/" handler={Card} />
-        <Location path="/cards/:cardId/:cardName" handler={CardItem} />
-        <NotFound handler={NotFoundPage} />
-      </Locations>
+      <Router history={appHistory}>
+        <Route path="/" name="cards" component={Card} />
+        <Route path="/cards/:cardId/:cardName" name="cardItem" component={CardItem} />
+      </Router>
     );
   }
 });
 
-module.exports = Content;
+export default Content;

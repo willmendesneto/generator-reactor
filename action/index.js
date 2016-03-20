@@ -14,7 +14,7 @@ util.inherits(ActionGenerator, ScriptBase);
 
 ActionGenerator.prototype.createActionFile = function createActionFile() {
   this.option('es6');
-  this.es6 = this.options.es6;
+  this.es6 = true;
 
   var actionTemplate;
   switch (this.architecture){

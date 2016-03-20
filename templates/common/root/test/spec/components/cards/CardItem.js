@@ -1,27 +1,33 @@
 'use strict';
 
-describe('CardItem', function () {
+import CardItem from 'components/card/CardItem';
+import $ from 'jquery';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
 
-  var React = require('react/addons'),
-      TestUtils = React.addons.TestUtils;
-  var CardItem, component, item, renderedComponent;
+describe('CardItem', () => {
 
-  beforeEach(function () {
-    CardItem = require('components/card/CardItem.js');
+  var component, item, renderedComponent;
+
+  beforeEach(() => {
     item = MockApp.getCardItem();
-    component = React.createElement(CardItem, {cardId: item.id} );
-
-    renderedComponent = TestUtils.renderIntoDocument(component);
-    renderedComponent.setState({
-      item: item
+    spyOn($, 'get').and.callFake( (req) => {
+      var d = $.Deferred();
+      d.resolve(item);
+      return d.promise();
     });
+
+    let node = document.createElement('div');
+    const routeParams = { cardId: 1 };
+    renderedComponent = ReactDOM.render(<CardItem params={routeParams}/>, node);
   });
 
-  afterEach(function() {
-    React.unmountComponentAtNode(document);
+  afterEach(() => {
+    ReactDOM.unmountComponentAtNode(document);
   });
 
-  it('should create a new instance of CardItem with all state', function () {
+  it('should create a new instance of CardItem with all state', () => {
     expect(Object.keys(renderedComponent.state.item).length).toBe(5);
     expect(renderedComponent.state.item.id).toBe(item.id);
     expect(renderedComponent.state.item.name).toBe(item.name);
@@ -30,7 +36,7 @@ describe('CardItem', function () {
     expect(renderedComponent.state.item.image).toBe(item.image);
   });
 
-  it('should render state info in component', function() {
+  it('should render state info in component', () => {
     var image = TestUtils.findRenderedDOMComponentWithClass(renderedComponent, 'card-item-image');
 
     expect(image.props.src).toBe(renderedComponent.state.item.image);

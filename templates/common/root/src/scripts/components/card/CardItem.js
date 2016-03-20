@@ -1,37 +1,39 @@
 'use strict';
 
-var React         = require('react'),
-    Link = require('react-router-component').Link,
-    CardStore      = require('../../stores/card/CardStore')
-;
+import React from 'react';
+import { Link } from 'react-router';
+import CardStore from '../../stores/card/CardStore';
 
-var CardItem = React.createClass({
+import './cards.scss';
 
-  getInitialState: function() {
+export default React.createClass({
+
+  getInitialState() {
     return {
       item: {}
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.loadData();
   },
 
-  loadData: function() {
-    CardStore.findById(this.props.cardId).then( function(item) {
+  loadData() {
+    CardStore.findById(this.props.params.cardId).then(item => {
       if (this.isMounted()) {
         this.setState({
           item: item
         });
       }
-    }.bind(this));
+    }, this);
   },
 
-  render: function() {
+  render() {
     return (
       <div className="col-sm-12 card-item">
           <h2>{this.state.item.name}</h2>
-          <img className="card-item-image clearfix" src={this.state.item.image}
+          <img className="card-item-image clearfix"
+              src={this.state.item.image}
               alt={this.state.item.name}
               title={this.state.item.name}
               width="200"
@@ -42,13 +44,11 @@ var CardItem = React.createClass({
           <p>Website: <a href={this.state.item.website} target="_blank">{this.state.item.website}</a></p>
         </div>
 
-          <Link className="btn btn-primary btn-sm" href="/">
+          <Link className="btn btn-primary btn-sm" to="/">
           BACK TO CARDS
           </Link>
       </div>
     );
   }
 
-});
-
-module.exports = CardItem;
+})

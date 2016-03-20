@@ -2,6 +2,7 @@
 'use strict';
 
 var path = require('path');
+var del = require('del');
 var helpers = require('yeoman-generator').test;
 var assert = require('yeoman-generator').assert;
 var _ = require('underscore.string');
@@ -10,27 +11,31 @@ describe('reactor generator', function() {
   var reactor;
   var expected = [
     'src/favicon.ico',
-    'src/styles/cards.css',
-    'src/styles/main-header.css',
     'src/index.html',
-    'Gruntfile.js',
+    'Makefile',
+    'webpack.config.js',
+    'webpack.development.js',
+    'webpack.production.js',
     'karma.conf.js',
     'package.json'
   ];
   var mockPrompts = {};
   var genOptions = {
-    //'appPath': 'src',
     'skip-install': true,
     'skip-welcome-message': true,
     'skip-message': true,
     '--force': true
   };
   var deps = [
-    '../../app',
-    '../../common',
-    '../../component',
-    '../../main'
+    __dirname + '/../app',
+    __dirname + '/../common',
+    __dirname + '/../component',
+    __dirname + '/../main'
   ];
+
+  afterEach(function(){
+    del([ __dirname + '/temp-test' ]);
+  });
 
   beforeEach(function(done) {
     helpers.testDirectory(path.join(__dirname, 'temp-test'), function(err) {
@@ -39,12 +44,12 @@ describe('reactor generator', function() {
       }
       reactor = helpers.createGenerator('reactor:app', deps, false, genOptions);
       helpers.mockPrompt(reactor, mockPrompts);
-
       done();
     });
   });
 
   describe('App files', function() {
+
     it('should generate dotfiles', function(done) {
 
       reactor.run({}, function() {
@@ -52,6 +57,12 @@ describe('reactor generator', function() {
           '.yo-rc.json',
           '.editorconfig',
           '.gitignore',
+          '.babelrc',
+          '.editorconfig',
+          '.eslintignore',
+          '.gitignore',
+          '.jshintrc',
+          '.nvmrc',
           '.jshintrc'
         ]));
         done();
@@ -112,24 +123,17 @@ describe('reactor generator', function() {
       reactor.run({}, function() {
         // TODO: Hack, no time to work out why generated
         // files not present at point of test...
-        setTimeout(function() {
-          helpers.assertFile([].concat(expected, [
-            'test/mocks/MockApp.js'
-          ]));
-          done();
-        });
+        helpers.assertFile([].concat(expected, [
+          'test/mocks/MockApp.js'
+        ]));
+        done();
       });
     });
 
     it('should use HMR webpack API inside of configs', function (done) {
       reactor.run({}, function() {
         assert.fileContent([
-            ['package.json', /react-hot-loader/]
-            // ['Gruntfile.js', /hot:\s*true/],
-            // ['webpack.config.js', /react-hot/],
-            // ['webpack.config.js', /webpack\.HotModuleReplacementPlugin/],
-            // ['webpack.config.js', /webpack\.NoErrorsPlugin/],
-            // ['webpack.config.js', /webpack\/hot\/only-dev-server/]
+          ['package.json', /react-hot-loader/]
         ]);
         done();
       });
@@ -139,34 +143,29 @@ describe('reactor generator', function() {
       reactor.run({}, function() {
         assert.fileContent([
             // style aliases
-            //['webpack.config.js', /resolve[\S\s]+alias[\S\s]+styles/m],
             ['karma.conf.js', /resolve[\S\s]+alias[\S\s]+styles/m],
-            //['webpack.dist.config.js', /resolve[\S\s]+alias[\S\s]+styles/m],
-            // script/components aliases
-            //['webpack.config.js', /resolve[\S\s]+alias[\S\s]+components/m],
+            ['karma.conf.js', /resolve[\S\s]+alias[\S\s]+helpers/m],
             ['karma.conf.js', /resolve[\S\s]+alias[\S\s]+components/m],
-            //['webpack.dist.config.js', /resolve[\S\s]+alias[\S\s]+components/m]
+            ['karma.conf.js', /resolve[\S\s]+alias[\S\s]+stores/m],
+            ['karma.conf.js', /resolve[\S\s]+alias[\S\s]+actions/m]
         ]);
         done();
       });
     });
 
-    // it('should not have any flux assets configured', function(done) {
-    //   reactor.run({}, function() {
-    //     assert.noFileContent([
-    //       //['package.json', /flux/],
-    //       //['package.json', /events/],
-    //       //['package.json', /object-assign/],
-    //       ['karma.conf.js', /resolve[\S\s]+alias[\S\s]+stores/m],
-    //       //['webpack.config.js', /resolve[\S\s]+alias[\S\s]+stores/m],
-    //       //['webpack.dist.config.js', /resolve[\S\s]+alias[\S\s]+stores/m]
-    //     ]);
-    //
-    //     assert.noFile('src/scripts/dispatcher/TempTestAppDispatcher.js');
-    //
-    //     done();
-    //   });
-    // });
+    it('should not have any flux assets configured', function(done) {
+      reactor.run({}, function() {
+        assert.noFileContent([
+          ['package.json', /dependencies\.flux/],
+          ['package.json', /dependencies\.events/],
+          ['package.json', /dependencies\.object-assign/],
+        ]);
+
+        // assert.noFile('src/scripts/dispatcher/TempTestAppDispatcher.js');
+
+        done();
+      });
+    });
   });
 
   describe('Generator', function () {
@@ -225,6 +224,10 @@ describe('reactor generator', function() {
       })
     });
 
+    afterEach(function(){
+      del([ __dirname + '/temp-test' ]);
+    });
+
     it('should add flux, events, and object-assign packages', function(done) {
       assert.fileContent([
         ['package.json', /flux/],
@@ -243,66 +246,64 @@ describe('reactor generator', function() {
       done();
     });
 
-    // it('should add stores and actions alias to webpack configs', function(done) {
-    //   assert.fileContent([
-    //     ['webpack.config.js', /resolve[\S\s]+alias[\S\s]+stores/m],
-    //     ['webpack.dist.config.js', /resolve[\S\s]+alias[\S\s]+stores/m]
-    //   ]);
-    //
-    //   done();
-    // });
+    it('should add stores and actions alias to webpack configs', function(done) {
+      assert.fileContent([
+        ['webpack.config.js', /resolve[\S\s]+modulesDirectories[\S\s]+stores/m]
+      ]);
 
-    // it('should have a Dispatcher generated', function(done) {
-    //   setTimeout(function(){
-    //     assert.file('src/scripts/dispatcher/TempTestAppDispatcher.js');
-    //
-    //     done();
-    //   });
-    // })
+      done();
+    });
+
+    it('should have a Dispatcher generated', function(done) {
+      setTimeout(function(){
+        assert.file('src/scripts/dispatcher/TempTestAppDispatcher.js');
+
+        done();
+      });
+    })
   });
 
   describe('When generating a Component', function() {
     var generatorTest = function(name, generatorType, specType, targetDirectory, scriptNameFn, specNameFn, suffix, done) {
 
-      var deps = [path.join('../..', generatorType)];
+      var deps = [path.join(__dirname, '../' + generatorType)];
       genOptions.appPath = 'src';
 
       var reactorGenerator = helpers.createGenerator('reactor:' + generatorType, deps, [name], genOptions);
 
-      setTimeout(function(){
-        reactor.run([], function() {
-          reactorGenerator.run([], function() {
-            helpers.assertFileContent([
-
-              [path.join('src/scripts', targetDirectory, name + '.js'), new RegExp('var ' + scriptNameFn(name) + suffix, 'g')],
-              [path.join('src/scripts', targetDirectory, name + '.js'), new RegExp('require\\(\'styles\\/' + name + suffix + '\\.[^\']+' + '\'\\)', 'g')],
-              [path.join('test/spec', targetDirectory, 'TempTestApp' + '.js'), new RegExp('require\\(\'components\\/' + 'TempTestApp' + suffix + '\\.[^\']+' + '\'\\)', 'g')],
-              [path.join('test/spec', targetDirectory, name + '.js'), new RegExp('require\\(\'components\\/' + name + suffix + '\\.[^\']+' + '\'\\)', 'g')],
-              [path.join('test/spec', targetDirectory, name + '.js'), new RegExp('describe\\(\'' + specNameFn(name) + suffix + '\'', 'g')]
-
-            ]);
-            done();
-          });
+      reactor.run([], function() {
+        reactorGenerator.run([], function() {
+          helpers.assertFileContent([
+            [path.join('src/scripts', targetDirectory, name + '.js'), new RegExp('var ' + scriptNameFn(name) + suffix, 'g')],
+            [path.join('src/scripts', targetDirectory, name + '.js'), new RegExp('require\\(\'styles\\/' + name + suffix + '\\.[^\']+' + '\'\\)', 'g')],
+            [path.join('test/spec', targetDirectory, name + '.js'), new RegExp('require\\(\'components\\/' + name + suffix + '\\.[^\']+' + '\'\\)', 'g')],
+            [path.join('test/spec', targetDirectory, name + '.js'), new RegExp('describe\\(\'' + specNameFn(name) + suffix + '\'', 'g')]
+          ]);
+          done();
         });
       });
     }
 
-    // it('should generate a new component', function(done) {
-    //   reactor.run({}, function() {
-    //     generatorTest('Foo', 'component', 'component', 'components', _.capitalize, _.capitalize, '', done);
-    //   });
-    // });
-    //
-    // it('should generate a subcomponent', function(done) {
-    //   reactor.run({}, function() {
-    //     var subComponentNameFn = function () { return 'Bar'; };
-    //     generatorTest('Foo/Bar', 'component', 'component', 'components', subComponentNameFn, subComponentNameFn, '', done);
-    //   });
-    // });
+    it('should generate a new component', function(done) {
+      reactor.run({}, function() {
+        generatorTest('Foo', 'component', 'component', 'components', _.capitalize, _.capitalize, '', done);
+      });
+    });
+
+    it('should generate a subcomponent', function(done) {
+      reactor.run({}, function() {
+        var subComponentNameFn = function () { return 'Bar'; };
+        generatorTest('Foo/Bar', 'component', 'component', 'components', subComponentNameFn, subComponentNameFn, '', done);
+      });
+    });
 
   });
 
   describe('When generating an Action', function() {
+
+    afterEach(function(){
+      del([ __dirname + '/temp-test' ]);
+    });
 
     beforeEach(function(done){
       helpers.mockPrompt(reactor, {
@@ -338,6 +339,10 @@ describe('reactor generator', function() {
   });
 
   describe('When generating a Store', function() {
+
+    afterEach(function(){
+      del([ __dirname + '/temp-test' ]);
+    });
 
     beforeEach(function(done) {
       helpers.mockPrompt(reactor, {

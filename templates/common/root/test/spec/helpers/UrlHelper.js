@@ -1,15 +1,10 @@
 'use strict';
+import UrlHelper from 'helpers/UrlHelper.js';
 
-describe('UrlHelper', function () {
+describe('UrlHelper', () => {
 
-  var UrlHelper;
-
-  beforeEach(function () {
-    UrlHelper = require('helpers/UrlHelper.js');
-  });
-
-  it('#generateUrlFriendly', function () {
-    var string = 'This is a test';
+  it('#generateUrlFriendly', () => {
+    let string = 'This is a test';
     expect(UrlHelper.generateUrlFriendly(string)).toBe('this-is-a-test');
 
     string = 'This is a test with special characters!#$#%$ˆ%$ˆ%$';

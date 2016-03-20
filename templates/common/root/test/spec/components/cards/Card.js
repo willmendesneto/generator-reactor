@@ -1,32 +1,34 @@
 'use strict';
 
-describe('Card', function () {
-  var React = require('react/addons'),
-      TestUtils = React.addons.TestUtils;
-  var Card, component, items, renderedComponent;
+import Card from 'components/card/Card';
+import CardList from 'components/card/CardList';
+import $ from 'jquery';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
 
-  beforeEach(function () {
-    Card = require('components/card/Card.js');
-    items = MockApp.getCardListItem();
-    component = React.createElement(Card);
-    renderedComponent = TestUtils.renderIntoDocument(component);
+describe('Card',  () => {
+  const items = MockApp.getCardListItem();
+  let renderedComponent;
+
+  beforeEach(() => {
+    spyOn($, 'get').and.callFake(req => {
+      var d = $.Deferred();
+      d.resolve(items);
+      return d.promise();
+    });
+
+    let node = document.createElement('div');
+    renderedComponent = ReactDOM.render(<Card />, node);
   });
 
-  afterEach(function() {
-    React.unmountComponentAtNode(document);
+  afterEach(() => {
+    ReactDOM.unmountComponentAtNode(document);
   });
 
-  it('should create a new instance of Card', function () {
-    expect(component).toBeDefined();
+  it('should render instances of CardListItems in Card component based in state "items" ',  () => {
+    var cards = TestUtils.scryRenderedComponentsWithType(renderedComponent, CardList)[0];
+    expect(cards.props.items.length).toBe(items.length);
   });
-
-  it('should render instances of CardListItems in Card component based in state "items" ', function () {
-    var CardList = require('components/card/CardList.js');
-    var cards = TestUtils.scryRenderedComponentsWithType(renderedComponent, CardList);
-
-    expect(cards.length).toBe(1);
-
-  });
-
 
 });
