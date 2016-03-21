@@ -1,6 +1,8 @@
-# generator-reactor [![Build Status](https://snap-ci.com/willmendesneto/generator-reactor/branch/master/build_image)](https://snap-ci.com/willmendesneto/generator-reactor/branch/master)
+# generator-reactor
 
-> Yeoman generator for [ReactJS](http://facebook.github.io/react/) - lets you quickly set up a project including karma test runner and [Webpack](http://webpack.github.io/) module system. Using Grunt, Bower and WebPack by default.
+[![Build Status](https://snap-ci.com/willmendesneto/generator-reactor/branch/master/build_image)](https://snap-ci.com/willmendesneto/generator-reactor/branch/master)
+
+> Yeoman generator for [ReactJS](http://facebook.github.io/react/) - lets you quickly set up a project including karma test runner and [Webpack](http://webpack.github.io/) module system. Using NPM Scripts, Karma and WebPack by default.
 
 
 ## Example
@@ -291,67 +293,11 @@ Sets the style file's template and extension
 
 [flux](https://facebook.github.io/flux/) or [reflux](https://github.com/spoike/refluxjs)
 
-### es6
-
-If you are using `es6`, and want to use its export functionality (and not webpack's), just add `--es6` flag when you create a component, action or srore.
-
-
 ## Testing
 
 Running `npm test` will run the unit tests with karma. Tests are written using [Jasmine](http://jasmine.github.io/) by default.
 
 ## Further Information
-
-### Project Structure
-
-The reactor generator automates the setup of a [ReactJS](http://facebook.github.io/react/) project using the specific structure detailed below:
-
-```
-project
-  - src
-    -components
-      MainApp.js
-      Foo.js
-      AnotherComponent.js
-
-    //for flux/reflux
-    -actions
-      BarActionCreators.js
-    -stores
-      BazStore.js
-    //for flux
-    -dispatcher
-      FooAppDispatcher
-
-    - styles
-      main.css
-    index.html
-  - test
-    - spec
-      - components
-         MainApp.js
-         Foo.js
-         AnotherComponent.js
-
-      //for flux/reflux
-      -actions
-        BarActionCreators.js
-      -stores
-        BazStore.js
-
-    - helpers
-      - react
-        addons.js
-      phantomjs-shims.js
-  Makefile
-  karma.conf.js
-  package.json
-  webpack.config.js
-  webpack.development.js
-  webpack.production.js
-```
-
-I have tried to keep the project structure as simple as possible and understand it may not suit everyone.
 
 ### Naming Components
 
@@ -367,12 +313,18 @@ Out the box, the generator uses [npm scripts](https://docs.npmjs.com/misc/script
 
 1. **webpack**: uses the [webpack](https://webpack.github.io/) to load all required modules and output to a single JS file `src/scripts/components/main.js`. This is included in the `src/index.html` file by default and will reload in the browser as and when it is recompiled.
 2. **webpack-dev-server**: uses the [webpack-dev-server](https://github.com/webpack/webpack-dev-server) to watch for file changes and also serve the webpack app in development.
-3. **karma**: uses the [karma](https://github.com/karma-runner/grunt-karma) to load the Karma configuration file `karma.conf.js` located in the project root. This will run all tests using [PhantomJS](http://phantomjs.org/) by default but supports many other browsers.
-4. **editorconfig-tool**: check and validate all files application (`src` and `test` folders) based in `.editorconfig` params.
+3. **karma**: uses the [karma](https://karma-runner.github.io/0.13/index.html) to load the Karma configuration file `karma.conf.js` located in the project root. This will run all tests using [PhantomJS](http://phantomjs.org/) by default but supports many other browsers.
+4. **editorconfig-tools**: check and validate all files application (`src` and `test` folders) based in `.editorconfig` params.
 
-### CSS
+### Stylesheet
 
-Included in the project is the [normalize.css](http://necolas.github.io/normalize.css/) script. There is also a `src/styles/main.css` script that's required by the core `src/components/App.js` component using Webpack.
+Included in the project with options:
+
+- CSS;
+- SASS;
+- SCSS;
+- LESS;
+- STYLUS;
 
 ## Contribute
 
@@ -380,4 +332,4 @@ Contributions are welcomed. When submitting a bugfix, write a test that exposes 
 
 ### Running Tests
 
-`node node_modules/.bin/mocha`
+`npm test`
