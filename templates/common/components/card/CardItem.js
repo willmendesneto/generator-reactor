@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import CardStore from '../../stores/card/CardStore';
 
-import './cards.scss';
+import './cards.<%= cssExtension %>';
 
 export default React.createClass({
 

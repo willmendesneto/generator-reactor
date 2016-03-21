@@ -28,8 +28,8 @@
     "url": "git://github.com/willmendesneto/generator-reactor.git"
   },
   "scripts": {
-    "clean-generator-test-folder": "node_modules/.bin/rimraf test/temp-test",
-    "test": "node node_modules/.bin/mocha --timeout 5000"
+    "clean-test": "node_modules/.bin/rimraf test/temp-test",
+    "test": "npm run clean-test && ./node_modules/.bin/mocha --timeout 5000"
   },
   "dependencies": {
     "del": "^2.2.0",

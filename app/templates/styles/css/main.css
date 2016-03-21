@@ -1,0 +1,157 @@
+#load-content {
+  height: 100%;
+  width: 100%;
+  background-color: #0097a7;
+  position: fixed;
+  z-index: 999999;
+}
+
+.loader,
+.loader:before,
+.loader:after {
+  background: #ffffff;
+  -webkit-animation: load1 1s infinite ease-in-out;
+  animation: load1 1s infinite ease-in-out;
+  width: 1em;
+  height: 4em;
+}
+
+.loader:before,
+.loader:after {
+  position: absolute;
+  top: 0;
+  content: '';
+}
+
+.loader:before {
+  left: -1.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.loader {
+  top: 33%;
+  right: 50%;
+  text-indent: -9999em;
+  margin: 88px auto;
+  position: absolute;
+  font-size: 11px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+.loader:after {
+  left: 1.5em;
+}
+
+@-webkit-keyframes load1 {
+  0%,
+80%,
+100% {
+    box-shadow: 0 0 #ffffff;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em #ffffff;
+    height: 5em;
+  }
+}
+@keyframes load1 {
+  0%,
+80%,
+100% {
+    box-shadow: 0 0 #ffffff;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em #ffffff;
+    height: 5em;
+  }
+}
+.main-header-content {
+  height: 200px;
+  color: #FFF;
+  background: transparent;
+  position: absolute;
+  vertical-align: middle;
+  text-align: center;
+  top: 20%;
+  text-shadow: 1px 1px 2px #333;
+  left: 35%;
+}
+
+.main-header {
+  font-size: 60px;
+}
+
+.main-desc {
+  font-size: 24px;
+}
+
+.wrap {
+  background-image: linear-gradient(0deg, #0097a7 0%, #00b8d4 100%);
+}
+
+.wrap svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.curve {
+  stroke-opacity: 0;
+}
+
+.curve path {
+  transform-origin: center 60px;
+}
+
+.curve path:nth-child(1) {
+  stroke-width: 1px;
+  animation: curve 6s linear 1.2s infinite;
+}
+
+.curve path:nth-child(2) {
+  stroke-width: 1px;
+  animation: curve 6s linear 2.4s infinite;
+}
+
+.curve path:nth-child(3) {
+  stroke-width: 2px;
+  animation: curve 6s linear 3.6s infinite;
+}
+
+.curve path:nth-child(4) {
+  stroke-width: 2px;
+  animation: curve 6s linear 4.8s infinite;
+}
+
+.curve path:nth-child(5) {
+  stroke-width: 3px;
+  animation: curve 6s linear 6s infinite;
+}
+
+.curve path:nth-child(6) {
+  stroke-width: 3px;
+  animation: curve 6s linear 7.2s infinite;
+}
+
+@keyframes curve {
+  0% {
+    transform: none;
+    stroke-opacity: 0;
+  }
+  50% {
+    transform: rotateX(360deg) scaleY(0.8);
+    stroke-opacity: .4;
+  }
+  70% {
+    /* transform: skewY(-2deg); */
+  }
+  100% {
+    transform: none;
+    stroke-opacity: 0;
+  }
+}

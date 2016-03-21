@@ -3,7 +3,7 @@
 import React from 'react';
 import CardListItem from './CardListItem';
 
-import './cards.scss';
+import './cards.<%= cssExtension %>';
 
 export default React.createClass({
 

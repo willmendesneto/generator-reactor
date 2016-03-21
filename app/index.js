@@ -104,6 +104,9 @@ ReactorGenerator.prototype.askForStylesLanguage = function () {
     this.env.options.stylesLanguage = props.stylesLanguage;
     this.config.set('styles-language', props.stylesLanguage);
     this.config.set('stylesLanguage', props.stylesLanguage);
+
+    this.env.options.cssExtension = props.stylesLanguage.substr(0, 4);
+    this.config.set('cssExtension', this.env.options.cssExtension);
     done();
   }.bind(this));
 };
@@ -119,21 +122,44 @@ ReactorGenerator.prototype.createIndexHtml = function createIndexHtml() {
 
 ReactorGenerator.prototype.packageFiles = function () {
   this.es6 = true;
+  var stylesLanguage = this.env.options.stylesLanguage;
+  var commonTemplatesDir = __dirname + '/../templates/common';
+  var cssExtension = this.env.options.cssExtension;
+  var cardComponentStylesheetTemplate = commonTemplatesDir +
+                                        '/cards-style/cards.' +
+                                        cssExtension;
+
   this.reactRouter = this.env.options.reactRouter;
   this.architecture = this.env.options.architecture;
-  this.stylesLanguage = this.env.options.stylesLanguage;
-  this.copy(__dirname + '/../templates/common/babelrc', '.babelrc');
-  this.copy(__dirname + '/../templates/common/editorconfig', '.editorconfig');
-  this.copy(__dirname + '/../templates/common/eslintignore', '.eslintignore');
-  this.copy(__dirname + '/../templates/common/gitignore', '.gitignore');
-  this.copy(__dirname + '/../templates/common/jshintrc', '.jshintrc');
-  this.copy(__dirname + '/../templates/common/nvmrc', '.nvmrc');
-  this.copy(__dirname + '/../templates/common/Makefile', 'Makefile');
-  this.template(__dirname + '/../templates/common/_package.json', 'package.json');
-  this.template(__dirname + '/../templates/common/webpack.config.js', 'webpack.config.js');
-  this.template(__dirname + '/../templates/common/webpack.development.js', 'webpack.development.js');
-  this.template(__dirname + '/../templates/common/webpack.production.js', 'webpack.production.js');
-  this.template(__dirname + '/../templates/common/webpack.production.js', 'webpack.production.js');
+  this.stylesLanguage = stylesLanguage;
+  this.cssExtension = cssExtension;
+
+  // Dotfiles
+  this.copy(commonTemplatesDir + '/babelrc', '.babelrc');
+  this.copy(commonTemplatesDir + '/editorconfig', '.editorconfig');
+  this.copy(commonTemplatesDir + '/eslintignore', '.eslintignore');
+  this.copy(commonTemplatesDir + '/gitignore', '.gitignore');
+  this.copy(commonTemplatesDir + '/jshintrc', '.jshintrc');
+  this.copy(commonTemplatesDir + '/nvmrc', '.nvmrc');
+
+  // Configuration files
+  this.copy(commonTemplatesDir + '/Makefile', 'Makefile');
+  this.template(commonTemplatesDir + '/_package.json', 'package.json');
+  this.template(commonTemplatesDir + '/webpack.config.js', 'webpack.config.js');
+  this.template(commonTemplatesDir + '/webpack.development.js', 'webpack.development.js');
+  this.template(commonTemplatesDir + '/webpack.production.js', 'webpack.production.js');
+  this.template(commonTemplatesDir + '/webpack.production.js', 'webpack.production.js');
+
+  // Stylesheet component file
+  this.template(cardComponentStylesheetTemplate, 'src/scripts/components/card/cards.' + cssExtension);
+
+  // Default Component files
+  this.copy(commonTemplatesDir + '/components/routers.js', 'src/scripts/components/routers.js');
+  this.template(commonTemplatesDir + '/components/main.js', 'src/scripts/components/main.js');
+  this.template(commonTemplatesDir + '/components/card/Card.js', 'src/scripts/components/card/Card.js');
+  this.template(commonTemplatesDir + '/components/card/CardItem.js', 'src/scripts/components/card/CardItem.js');
+  this.template(commonTemplatesDir + '/components/card/CardList.js', 'src/scripts/components/card/CardList.js');
+  this.template(commonTemplatesDir + '/components/card/CardListItem.js', 'src/scripts/components/card/CardListItem.js');
 };
 
 ReactorGenerator.prototype.imageFiles = function () {
@@ -143,7 +169,7 @@ ReactorGenerator.prototype.imageFiles = function () {
 
 ReactorGenerator.prototype.styleFiles = function () {
   this.sourceRoot(path.join(__dirname, 'templates'));
-  this.directory('styles', 'src/styles', true);
+  this.directory('styles/' + this.env.options.stylesLanguage, 'src/styles', true);
 };
 
 ReactorGenerator.prototype.karmaFiles = function () {

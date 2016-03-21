@@ -3,7 +3,7 @@ import React from 'react';
 import Router from './routers';
 import { render } from 'react-dom';
 
-import '../../styles/main.scss';
+import '../../styles/main.<%= cssExtension %>';
 
 let App = React.createClass({
   render: function () {

@@ -4,7 +4,7 @@ import React from 'react';
 import CardList from './CardList';
 import CardStore from '../../stores/card/CardStore';
 
-import './cards.scss';
+import './cards.<%= cssExtension %>';
 
 export default class Card extends React.Component {
 

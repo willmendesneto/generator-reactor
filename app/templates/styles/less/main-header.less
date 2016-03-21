@@ -1,0 +1,70 @@
+.main-header-content {
+	background: transparent;
+	color: #ffffff;
+	height: 200px;
+	left: 35%;
+	position: absolute;
+	text-align: center;
+	text-shadow: 1px 1px 2px #333333;
+	top: 20%;
+	vertical-align: middle;
+}
+.main-header {
+	font-size: 60px;
+}
+.main-desc {
+	font-size: 24px;
+}
+.wrap {
+	background-image: linear-gradient(0deg, #0097a7 0%, #00b8d4 100%);
+	svg {
+		display: block;
+		margin: 0 auto;
+	}
+}
+.curve {
+	stroke-opacity: 0;
+	path {
+		transform-origin: center 60px;
+		&:nth-child(1) {
+			animation: curve 6s linear 1.2s infinite;
+			stroke-width: 1px;
+		}
+		&:nth-child(2) {
+			animation: curve 6s linear 2.4s infinite;
+			stroke-width: 1px;
+		}
+		&:nth-child(3) {
+			animation: curve 6s linear 3.6s infinite;
+			stroke-width: 2px;
+		}
+		&:nth-child(4) {
+			animation: curve 6s linear 4.8s infinite;
+			stroke-width: 2px;
+		}
+		&:nth-child(5) {
+			animation: curve 6s linear 6s infinite;
+			stroke-width: 3px;
+		}
+		&:nth-child(6) {
+			animation: curve 6s linear 7.2s infinite;
+			stroke-width: 3px;
+		}
+	}
+}
+@keyframes {
+	curve {
+		0% { transform: none;
+		stroke-opacity: 0;
+	}
+}
+50% {
+	stroke-opacity: .4;
+	transform: rotateX(360deg) scaleY(0.8);
+}
+70% {
+}
+100% {
+	stroke-opacity: 0;
+	transform: none;
+}

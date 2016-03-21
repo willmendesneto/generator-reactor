@@ -190,6 +190,9 @@ describe('reactor generator', function() {
       });
       reactor.run({}, function() {
         assert.equal(reactor.config.get('styles-language'), lang);
+        assert.equal(reactor.config.get('stylesLanguage'), lang);
+        var cssExtension = lang.substr(0, 4);
+        assert.equal(reactor.config.get('cssExtension'), cssExtension);
         done();
       });
     };
