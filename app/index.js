@@ -92,9 +92,9 @@ ReactorGenerator.prototype.askForStylesLanguage = function () {
   this.prompt({
     type    : 'list',
     name    : 'stylesLanguage',
-    message : 'Which styles language you want to use?',
+    message : 'For your stylesheet, what options do you prefer?',
     choices: [
-        {name: 'CSS', value: 'css'},
+        {name: 'Just the good and old CSS', value: 'css'},
         {name: 'SASS', value: 'sass'},
         {name: 'SCSS', value: 'scss'},
         {name: 'LESS', value: 'less'},
