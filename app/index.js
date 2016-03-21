@@ -3,16 +3,18 @@ var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var generalUtils = require('../util.js');
+var _ = require('underscore.string');
+var htmlWiring = require('html-wiring');
 
 var ReactorGenerator = module.exports = function ReactorGenerator(args, options, config) {
-  yeoman.generators.Base.apply(this, arguments);
+  yeoman.Base.apply(this, arguments);
   this.option('es6');
   this.es6 = true;
 
   this.argument('appname', { type: String, required: false });
   this.appname = this.appname || path.basename(process.cwd());
-  this.appname = this._.camelize(this._.slugify(this._.humanize(this.appname)));
-  this.scriptAppName = this._.capitalize(this.appname) + generalUtils.appName(this);
+  this.appname = _.camelize(_.slugify(_.humanize(this.appname)));
+  this.scriptAppName = generalUtils.capitalize(this.appname) + generalUtils.appName(this);
 
   this.config.set('app-name', this.appname);
 
@@ -37,13 +39,12 @@ var ReactorGenerator = module.exports = function ReactorGenerator(args, options,
     this.installDependencies({ skipInstall: options['skip-install'], bower: false });
   });
 
-
-  this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
+  this.pkg = JSON.parse(htmlWiring.readFileAsString(path.join(__dirname, '../package.json')));
 
   this.config.save();
 };
 
-util.inherits(ReactorGenerator, yeoman.generators.Base);
+util.inherits(ReactorGenerator, yeoman.Base);
 
 ReactorGenerator.prototype.welcome = function welcome() {
   // welcome message

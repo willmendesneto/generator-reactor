@@ -3,22 +3,17 @@ var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var generalUtils = require('./util.js');
+var _ = require('underscore.string');
 
 var Generator = module.exports = function Generator() {
 	yeoman.generators.NamedBase.apply(this, arguments);
 
-	// Add capitalize mixin
-  this._.mixin({ capitalize: generalUtils.capitalize });
-  this._.mixin({ capitalizeFile: generalUtils.capitalizeFile });
-	this._.mixin({ capitalizeClass: generalUtils.capitalizeClass });
-	this._.mixin({ lowercase: generalUtils.lowercase });
-
 	this.appname = path.basename(process.cwd());
 
-	this.appname = this._.slugify(this._.humanize(this.appname));
-	this.scriptAppName = this._.camelize(this._.capitalize(this.appname)) + generalUtils.appName(this);
-	this.classedFileName = this._.capitalizeFile(this.name);
-  this.classedName = this._.capitalizeClass(this.name);
+	this.appname = _.slugify(_.humanize(this.appname));
+	this.scriptAppName = _.camelize(generalUtils.capitalize(this.appname)) + generalUtils.appName(this);
+	this.classedFileName = generalUtils.capitalizeFile(this.name);
+  this.classedName = generalUtils.capitalizeClass(this.name);
   this.stylesLanguage = this.config.get('styles-language');
   this.architecture = this.config.get('architecture');
 
@@ -61,14 +56,14 @@ var Generator = module.exports = function Generator() {
 util.inherits(Generator, yeoman.generators.NamedBase);
 
 Generator.prototype.appTemplate = function (src, dest) {
-	yeoman.generators.Base.prototype.template.apply(this, [
+	yeoman.Base.prototype.template.apply(this, [
 		path.join('javascript', src + this.scriptSuffix),
 		path.join(this.options.appPath, dest) + this.scriptSuffix
 	]);
 };
 
 Generator.prototype.reactComponentTemplate = function (src, dest) {
-	yeoman.generators.Base.prototype.template.apply(this, [
+	yeoman.Base.prototype.template.apply(this, [
 		path.join('javascript', src + this.reactSuffix),
 		path.join(this.options.appPath, dest) + this.reactSuffix
 	]);
@@ -76,38 +71,38 @@ Generator.prototype.reactComponentTemplate = function (src, dest) {
 
 Generator.prototype.testTemplate = function (src, dest) {
 	dest = dest.replace('scripts/', '');
-	yeoman.generators.Base.prototype.template.apply(this, [
+	yeoman.Base.prototype.template.apply(this, [
 		src + this.scriptSuffix,
 		path.join(this.options.testPath, dest) + this.scriptSuffix
 	]);
 };
 
 Generator.prototype.stylesTemplate = function (src, dest) {
-	yeoman.generators.Base.prototype.template.apply(this, [
+	yeoman.Base.prototype.template.apply(this, [
 		src + this.stylesSuffix,
 		path.join(this.options.stylesPath, dest) + this.stylesSuffix
 	]);
 };
 
 Generator.prototype.htmlTemplate = function (src, dest) {
-	yeoman.generators.Base.prototype.template.apply(this, [
+	yeoman.Base.prototype.template.apply(this, [
 		src,
 		path.join(this.options.appPath, dest.toLowerCase())
 	]);
 };
 
 Generator.prototype.generateSourceAndTest = function (appTemplate, testTemplate, targetDirectory) {
-	this.appTemplate(appTemplate, path.join(targetDirectory, this._.capitalizeFile(this.name)));
-	this.testTemplate(testTemplate, path.join(targetDirectory, this._.capitalizeFile(this.name)));
+	this.appTemplate(appTemplate, path.join(targetDirectory, generalUtils.capitalizeFile(this.name)));
+	this.testTemplate(testTemplate, path.join(targetDirectory, generalUtils.capitalizeFile(this.name)));
 };
 
 Generator.prototype.generateComponentTestAndStyle = function (componentTemplate, testTemplate, targetDirectory, stylesTemplate) {
 	stylesTemplate = typeof stylesTemplate !== 'undefined' ? !!stylesTemplate : false;
 
-	this.reactComponentTemplate(componentTemplate, path.join(targetDirectory, this._.capitalizeFile(this.name)));
-  this.testTemplate(testTemplate, path.join(targetDirectory, this._.capitalizeFile(this.name)));
+	this.reactComponentTemplate(componentTemplate, path.join(targetDirectory, generalUtils.capitalizeFile(this.name)));
+  this.testTemplate(testTemplate, path.join(targetDirectory, generalUtils.capitalizeFile(this.name)));
 
 	if (!!stylesTemplate) {
-		this.stylesTemplate(stylesTemplate, path.join(this._.capitalizeFile(this.name)));
+		this.stylesTemplate(stylesTemplate, path.join(generalUtils.capitalizeFile(this.name)));
 	}
 };
