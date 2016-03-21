@@ -193,6 +193,10 @@ describe('reactor generator', function() {
         assert.equal(reactor.config.get('stylesLanguage'), lang);
         var cssExtension = lang.substr(0, 4);
         assert.equal(reactor.config.get('cssExtension'), cssExtension);
+
+        helpers.assertFile([].concat(expected, [
+          'src/styles/main.' + cssExtension
+        ]));
         done();
       });
     };
