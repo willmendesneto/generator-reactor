@@ -7,6 +7,7 @@ var generalUtils = require('../util.js');
 var ReactorGenerator = module.exports = function ReactorGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
   this.option('es6');
+  this.es6 = true;
 
   this.argument('appname', { type: String, required: false });
   this.appname = this.appname || path.basename(process.cwd());
