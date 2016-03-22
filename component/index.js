@@ -17,13 +17,13 @@ ComponentGenerator.prototype.createComponentFile = function createComponentFile(
   this.rich = this.options.rich;
   this.style = typeof this.options.style !== 'undefined';
 
-  var createWithStylesheet = this.style;
+  var createWithStylesheet = this.style ? 'styles/Component' : false;
 
   this.generateComponentTestAndStyle(
     'Component',
     'spec/Component',
     'scripts/components',
-    (createWithStylesheet ? 'styles/Component' : false),
-    true
+    createWithStylesheet,
+    false
   );
 };

@@ -1,34 +1,31 @@
 'use strict';
 
-var React = require('react');<% if(rich && architecture === 'reflux'){%>
-var Reflux = require('Reflux'); <%}%>
-<% if(rich && architecture === 'flux' || architecture === 'reflux'){%>
-//var Actions = require('actions/xxx')
-<%}%>
-<% if (!!style && stylesLanguage === 'sass')   { %>require('styles/<%= classedFileName %>.sass');
-<% } else if (!!style && stylesLanguage === 'scss')   { %>require('styles/<%= classedFileName %>.scss');
-<% } else if (!!style && stylesLanguage === 'less')   { %>require('styles/<%= classedFileName %>.less');
-<% } else if (!!style && stylesLanguage === 'stylus') { %>require('styles/<%= classedFileName %>.styl');
-<% } else { %>require('styles/<%= classedFileName %>.css');<% } %>
+import React from 'react';<% if (!!style) {%>
 
-var <%= classedName %> = React.createClass({<% if(rich){%>
-  mixins: [<% if(architecture === 'reflux'){%>Reflux.ListenerMixin<%}%>],
-  getInitialState: function() { return({}) },
-  getDefaultProps: function() {},
-  componentWillMount: function() {},
-  componentDidMount: function() {},
-  shouldComponentUpdate: function() {},
-  componentDidUpdate: function() {},
-  componentWillUnmount: function() {},<%}%>
+import './<%= classedFileName %>.<%= cssExtension %>';<% } %>
 
-  render: function () {
-    return (
-        <div>
-          <p>Content for <%= classedName %></p>
-        </div>
-      );
+export default class <%= classedName %> extends React.Component {
+
+  constructor(props, context) {
+    super(props, context);
+  }<% if(rich){%>
+
+  getInitialState() {
+     return({});
   }
-});
 
-<% if (es6) { %>export default <%= classedName %>; <% }
-else { %>module.exports = <%= classedName %>; <% } %>
+  getDefaultProps() {}
+  componentWillMount() {}
+  componentDidMount() {}
+  shouldComponentUpdate() {}
+  componentDidUpdate() {}
+  componentWillUnmount() {}<%}%>
+
+  render() {
+    return (
+      <div>
+        <p>Content for <%= classedName %></p>
+      </div>
+    );
+  }
+}

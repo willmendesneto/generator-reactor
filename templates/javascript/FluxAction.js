@@ -1,8 +1,7 @@
 'use strict';
 
-var <%= classedName %> = {
+const <%= classedName %> = {
 
 }
 
-<% if (es6) { %> export default <%= classedName %>; <% }
-else { %>module.exports = <%= classedName %>; <% } %>
+export default <%= classedName %>;

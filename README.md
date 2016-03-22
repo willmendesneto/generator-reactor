@@ -36,6 +36,7 @@ Available generators:
 
 * [reactor](#app) (aka [reactor:app](#app))
 * [reactor:component](#component)
+* [reactor:class](#class)
 
 and for **Flux** or **Reflux** :
 * [reactor:action](#action)
@@ -68,39 +69,54 @@ Produces `src/components/Foo.js` (*javascript - JSX*):
 ```
 'use strict';
 
-var React = require('react/addons');
+import React from 'react';
 
-require('styles/componentName.css'); //or .sass,.less etc...
+import './Checkup.scss';
 
-var Foo = React.createClass({
-  render: function () {
-    return (
-        <div>
-          <p>Content for Foo</p>
-        </div>
-      )
+export default class Checkup extends React.Component {
+
+  constructor(props, context) {
+    super(props, context);
   }
-});
 
-module.exports = Foo;
+  render() {
+    return (
+      <div>
+        <p>Content for Checkup</p>
+      </div>
+    );
+  }
+}
+
 ```
 
 And `test/spec/components/Foo.js` (*javascript - jasmine*):
 ```
 'use strict';
 
-describe('Foo', function () {
-  var Foo, component;
+import Foo from 'components/Foo';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
 
-  beforeEach(function () {
-    Foo = require('../../../src/components/Foo');
-    component = Foo();
+describe('Foo',  () => {
+  let renderedComponent;
+
+  beforeEach(() => {
+    let node = document.createElement('div');
+    renderedComponent = ReactDOM.render(<Foo />, node);
+  });
+
+  afterEach(() => {
+    ReactDOM.unmountComponentAtNode(document);
   });
 
   it('should create a new instance of Foo', function () {
-    expect(component).toBeDefined();
+    expect(renderedComponent).toBeDefined();
   });
+
 });
+
 ```
 
 ### Create stylesheet of component
@@ -127,35 +143,159 @@ yo reactor:c foo --rich
 ```
 This will give you all of react component's most common stuff :
  ````
- var React = require('react/addons');
+ 'use strict';
 
- require('styles/Foofoo.sass');
+ import React from 'react';
 
- var Foofoo = React.createClass({
-   mixins: [],
-   getInitialState: function() { return({}) },
-   getDefaultProps: function() {},
-   componentWillMount: function() {},
-   componentDidMount: function() {},
-   shouldComponentUpdate: function() {},
-   componentDidUpdate: function() {},
-   componentWillUnmount: function() {},
+ import './Foo.scss';
 
-   render: function () {
-     return (
-         <div>
-           <p>Content for Foofoo</p>
-         </div>
-       );
+ export default class Foo extends React.Component {
+
+   constructor(props, context) {
+     super(props, context);
    }
- });
 
- module.exports = Foofoo;
+   getInitialState() {
+      return({});
+   }
+
+   getDefaultProps() {}
+   componentWillMount() {}
+   componentDidMount() {}
+   shouldComponentUpdate() {}
+   componentDidUpdate() {}
+   componentWillUnmount() {}
+
+   render() {
+     return (
+       <div>
+         <p>Content for Foo</p>
+       </div>
+     );
+   }
+ }
+
  ````
 
 Just remove those you don't need, then fill and space out the rest.
 
 
+
+### Class
+
+Generates a [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) component in `src/scripts/components`, its corresponding test in `src/spec/components` and its style in `src/style`.
+
+Example:
+```bash
+yo reactor:component foo  //or just: yo reactor:c foo
+```
+
+Produces `src/components/Foo.js` (*javascript - JSX*):
+```
+'use strict';
+
+import React from 'react';
+
+import './Foo.scss';
+
+export default class Foo extends React.createClass({
+
+  render() {
+    return (
+      <div>
+        <p>Content for Checkup-class</p>
+      </div>
+    );
+  }
+});
+
+
+```
+
+And `test/spec/components/Foo.js` (*javascript - jasmine*):
+```
+'use strict';
+
+import Foo from 'components/Foo';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
+
+describe('Foo',  () => {
+  let renderedComponent;
+
+  beforeEach(() => {
+    let node = document.createElement('div');
+    renderedComponent = ReactDOM.render(<Foo />, node);
+  });
+
+  afterEach(() => {
+    ReactDOM.unmountComponentAtNode(document);
+  });
+
+  it('should create a new instance of Foo', function () {
+    expect(renderedComponent).toBeDefined();
+  });
+
+});
+
+```
+
+### Create stylesheet of class
+
+You can add a stylesheet file for your new class using - `style` flag:
+
+```bash
+yo reactor:class foo --style
+```
+
+And `src/styles/Foo.css` (or .sass, .less etc...) will be created:
+
+```
+.Foo{
+  border: 1px dashed #f00;
+}
+```
+
+### rich flag
+
+For all you lazy programmers out there, we've added another shortcut - `rich` flag:
+```bash
+yo reactor:c foo --rich
+```
+This will give you all of react component's most common stuff :
+ ````
+'use strict';
+
+import React from 'react';
+
+import './Foo.scss';
+
+export default class Foo extends React.createClass({
+
+  getInitialState() {
+    return({});
+  },
+
+  getDefaultProps() {},
+  componentWillMount() {},
+  componentDidMount() {},
+  shouldComponentUpdate() {},
+  componentDidUpdate() {},
+  componentWillUnmount() {},
+
+  render() {
+    return (
+      <div>
+        <p>Content for Foo</p>
+      </div>
+    );
+  }
+});
+
+ ````
+
+Just remove those you don't need, then fill and space out the rest.
 
 
 ### Action
@@ -172,40 +312,39 @@ if 'architecture' is **Flux**, it Produces :
 ```
 'use strict';
 
-var BarActionCreators = {
+var ActActionCreators = {
 
 }
 
-module.exports = BarActionCreators;
+export default ActActionCreators;
+
 ```
 And if it's **Reflux**:
 ```
 'use strict';
 
-var Reflux = require('reflux');
+import Reflux from 'reflux';
 
-var BarActionCreators  =  Reflux.createActions([
+const BarActionCreators  =  Reflux.createActions([
 
 ]);
 
 
-module.exports = BarActionCreators;
+export default BarActionCreators;
 ```
 
 and same test for both architectures:
 ```
 'use strict';
 
-describe('BarActionCreators', function() {
-  var action;
+import action from 'actions/BarActionCreators';
 
-  beforeEach(function() {
-    action = require('actions/BarActionCreators.js');
-  });
+describe('BarActionCreators', () => {
 
-  it('should be defined', function() {
+  it('should be defined', () => {
     expect(action).toBeDefined();
   });
+
 });
 ```
 
@@ -223,15 +362,13 @@ if 'architecture' is **Flux**, it Produces :
 ```
 'use strict';
 
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
-var MainAppDispatcher = require('../dispatcher/MainAppDispatcher');
+import {EventEmitter} from 'events';
+import assign from 'object-assign';
+import BazStoreDispatcher from '../dispatcher/BazStoreDispatcher';
 
-var BazStore = assign({}, EventEmitter.prototype, {
+let BazStore = assign({}, EventEmitter.prototype, {});
 
-});
-
-BazStore.dispatchToken = MainAppDispatcher.register(function(action) {
+BazStore.dispatchToken = BazStoreDispatcher.register( action => {
 
   switch(action.type) {
     default:
@@ -239,40 +376,38 @@ BazStore.dispatchToken = MainAppDispatcher.register(function(action) {
 
 });
 
+export default BazStore;
+
+
 module.exports = BazStore;
 ```
 And if it's **Reflux**:
 ```
 'use strict';
 
-var Reflux = require('reflux');
-//var Actions = require('actions/..');
+import Reflux from 'reflux';
+import Actions from 'actions/..';
 
-
-var BazStore = Reflux.createStore({
+const BazStore = Reflux.createStore({
   listenables: Actions,
-
-
 });
 
-module.exports = BazStore;
+export default BazStore;
+
 ```
 
 and same test for both architectures:
 ```
 'use strict';
 
-describe('BazStore', function() {
-  var store;
+import BazStore from 'stores/BazStoreDispatcher';
 
-  beforeEach(function() {
-    store = require('stores/BazStore.js');
-  });
-
-  it('should be defined', function() {
-    expect(store).toBeDefined();
+describe('BazStore', () => {
+  it('should be defined', () => {
+    expect(classedName).toBeDefined();
   });
 });
+
 ```
 
 
@@ -299,10 +434,6 @@ Running `npm test` will run the unit tests with karma. Tests are written using [
 
 ## Further Information
 
-### Naming Components
-
-I have opted to follow [@floydophone](https://twitter.com/floydophone) convention of uppercase for component file naming e.g. [Component.js](https://github.com/petehunt/ReactHack/tree/master/src/components). I am open to suggestions if there is a general objection to this decision.
-
 ### Modules
 
 Each component is a module and can be required using the [Webpack](http://webpack.github.io/) module system. [Webpack](http://webpack.github.io/) uses [Loaders](http://webpack.github.io/docs/loaders.html) which means you can also require CSS and a host of other file types. Read the [Webpack documentation](http://webpack.github.io/docs/home.html) to find out more.
@@ -325,10 +456,6 @@ Included in the project with options:
 - SCSS;
 - LESS;
 - STYLUS;
-
-## Contribute
-
-Contributions are welcomed. When submitting a bugfix, write a test that exposes the bug and fails before applying your fix. Submit the test alongside the fix.
 
 ### Running Tests
 

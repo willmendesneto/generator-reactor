@@ -1,14 +1,12 @@
 'use strict';
 
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
-var <%= dispatcherName %> = require('../dispatcher/<%= dispatcherName %>');
+import {EventEmitter} from 'events';
+import assign from 'object-assign';
+import <%= dispatcherName %> from '../dispatcher/<%= dispatcherName %>';
 
-var <%= classedName %> = assign({}, EventEmitter.prototype, {
+let <%= classedName %> = assign({}, EventEmitter.prototype, {});
 
-});
-
-<%= classedName %>.dispatchToken = <%= dispatcherName %>.register(function(action) {
+<%= classedName %>.dispatchToken = <%= dispatcherName %>.register( action => {
 
   switch(action.type) {
     default:
@@ -16,5 +14,4 @@ var <%= classedName %> = assign({}, EventEmitter.prototype, {
 
 });
 
-<% if (es6) { %> export default <%= classedName %>; <% }
-else { %>module.exports = <%= classedName %>; <% } %>
+export default <%= classedName %>;

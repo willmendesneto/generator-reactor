@@ -1,11 +1,9 @@
 'use strict';
 
-var Reflux = require('reflux');
+import Reflux from 'reflux';
 
-var <%= classedName %>  =  Reflux.createActions([
+const <%= classedName %>  =  Reflux.createActions([
 
 ]);
 
-
-<% if (es6) { %> export default <%= classedName %>; <% }
-else { %>module.exports = <%= classedName %>; <% } %>
+export default <%= classedName %>;

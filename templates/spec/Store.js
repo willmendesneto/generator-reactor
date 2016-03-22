@@ -1,13 +1,9 @@
 'use strict';
 
-describe('<%= classedName %>', function() {
-  var store;
+import <%= classedName %> from 'stores/<%= classedFileName %>';
 
-  beforeEach(function() {
-    store = require('stores/<%= classedFileName %>.js');
-  });
-
-  it('should be defined', function() {
-    expect(store).toBeDefined();
+describe('<%= classedName %>', () => {
+  it('should be defined', () => {
+    expect(classedName).toBeDefined();
   });
 });

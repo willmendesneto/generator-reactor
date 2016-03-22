@@ -1,14 +1,10 @@
 'use strict';
 
-var Reflux = require('reflux');
-//var Actions = require('actions/..');
+import Reflux from 'reflux';
+import Actions from 'actions/..';
 
-
-var <%= classedName %> = Reflux.createStore({
+const <%= classedName %> = Reflux.createStore({
   listenables: Actions,
-
-
 });
 
-<% if (es6) { %> export default <%= classedName %>; <% }
-  else { %>module.exports = <%= classedName %>; <% } %>
+export default <%= classedName %>;

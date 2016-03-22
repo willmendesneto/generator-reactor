@@ -14,7 +14,8 @@ var Generator = module.exports = function Generator() {
 	this.scriptAppName = _.camelize(generalUtils.capitalize(this.appname)) + generalUtils.appName(this);
 	this.classedFileName = generalUtils.capitalizeFile(this.name);
   this.classedName = generalUtils.capitalizeClass(this.name);
-  this.stylesLanguage = this.config.get('styles-language');
+	this.stylesLanguage = this.config.get('styles-language');
+  this.cssExtension = this.config.get('cssExtension');
   this.architecture = this.config.get('architecture');
 
 	if (typeof this.options.appPath === 'undefined') {
@@ -33,23 +34,7 @@ var Generator = module.exports = function Generator() {
 	this.scriptSuffix = '.js';
 	this.reactSuffix = '.js';
 
-	this.stylesSuffix = '.css';
-
-    switch(this.stylesLanguage) {
-        case 'sass':
-            this.stylesSuffix = '.sass';
-            break;
-        case 'scss':
-            this.stylesSuffix = '.scss';
-            break;
-        case 'less':
-            this.stylesSuffix = '.less';
-            break;
-        case 'stylus':
-            this.stylesSuffix = '.styl';
-            break;
-    }
-
+	this.stylesSuffix = '.' + this.cssExtension;
 	this.sourceRoot(path.join(__dirname, sourceRoot));
 };
 
@@ -63,6 +48,13 @@ Generator.prototype.appTemplate = function (src, dest) {
 };
 
 Generator.prototype.reactComponentTemplate = function (src, dest) {
+	yeoman.Base.prototype.template.apply(this, [
+		path.join('javascript', src + this.reactSuffix),
+		path.join(this.options.appPath, dest) + this.reactSuffix
+	]);
+};
+
+Generator.prototype.reactClassTemplate = function (src, dest) {
 	yeoman.Base.prototype.template.apply(this, [
 		path.join('javascript', src + this.reactSuffix),
 		path.join(this.options.appPath, dest) + this.reactSuffix
@@ -97,9 +89,21 @@ Generator.prototype.generateSourceAndTest = function (appTemplate, testTemplate,
 };
 
 Generator.prototype.generateComponentTestAndStyle = function (componentTemplate, testTemplate, targetDirectory, stylesTemplate) {
+
 	stylesTemplate = typeof stylesTemplate !== 'undefined' ? !!stylesTemplate : false;
 
-	this.reactComponentTemplate(componentTemplate, path.join(targetDirectory, generalUtils.capitalizeFile(this.name)));
+	this.reactClassTemplate(componentTemplate, path.join(targetDirectory, generalUtils.capitalizeFile(this.name)));
+  this.testTemplate(testTemplate, path.join(targetDirectory, generalUtils.capitalizeFile(this.name)));
+	if (!!stylesTemplate) {
+		this.stylesTemplate(stylesTemplate, path.join(generalUtils.capitalizeFile(this.name)));
+	}
+};
+
+Generator.prototype.generateClassTestAndStyle = function (classTemplate, testTemplate, targetDirectory, stylesTemplate) {
+
+	stylesTemplate = typeof stylesTemplate !== 'undefined' ? !!stylesTemplate : false;
+
+	this.reactComponentTemplate(classTemplate, path.join(targetDirectory, generalUtils.capitalizeFile(this.name)));
   this.testTemplate(testTemplate, path.join(targetDirectory, generalUtils.capitalizeFile(this.name)));
 
 	if (!!stylesTemplate) {

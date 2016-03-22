@@ -161,8 +161,6 @@ describe('reactor generator', function() {
           ['package.json', /dependencies\.object-assign/],
         ]);
 
-        // assert.noFile('src/scripts/dispatcher/TempTestAppDispatcher.js');
-
         done();
       });
     });
@@ -281,9 +279,8 @@ describe('reactor generator', function() {
       reactor.run([], function() {
         reactorGenerator.run([], function() {
           helpers.assertFileContent([
-            [path.join('src/scripts', targetDirectory, name + '.js'), new RegExp('var ' + scriptNameFn(name) + suffix, 'g')],
-            [path.join('src/scripts', targetDirectory, name + '.js'), new RegExp('require\\(\'styles\\/' + name + suffix + '\\.[^\']+' + '\'\\)', 'g')],
-            [path.join('test/spec', targetDirectory, name + '.js'), new RegExp('require\\(\'components\\/' + name + suffix + '\\.[^\']+' + '\'\\)', 'g')],
+            [path.join('src/scripts', targetDirectory, name + '.js'), new RegExp('export default class ' + scriptNameFn(name) + suffix, 'g')],
+            [path.join('test/spec', targetDirectory, name + '.js'), new RegExp('import ' + scriptNameFn(name) + suffix + ' from \'components\\/' + name + suffix, 'g')],
             [path.join('test/spec', targetDirectory, name + '.js'), new RegExp('describe\\(\'' + specNameFn(name) + suffix + '\'', 'g')]
           ]);
           done();
@@ -301,6 +298,41 @@ describe('reactor generator', function() {
       reactor.run({}, function() {
         var subComponentNameFn = function () { return 'Bar'; };
         generatorTest('Foo/Bar', 'component', 'component', 'components', subComponentNameFn, subComponentNameFn, '', done);
+      });
+    });
+
+  });
+
+  describe('When generating a Class', function() {
+    var generatorTest = function(name, generatorType, specType, targetDirectory, scriptNameFn, specNameFn, suffix, done) {
+
+      var deps = [path.join(__dirname, '../' + generatorType)];
+      genOptions.appPath = 'src';
+
+      var reactorGenerator = helpers.createGenerator('reactor:' + generatorType, deps, [name], genOptions);
+
+      reactor.run([], function() {
+        reactorGenerator.run([], function() {
+          helpers.assertFileContent([
+            [path.join('src/scripts', targetDirectory, name + '.js'), new RegExp('export default class ' + scriptNameFn(name) + suffix, 'g')],
+            [path.join('test/spec', targetDirectory, name + '.js'), new RegExp('import ' + scriptNameFn(name) + suffix + ' from \'components\\/' + name + suffix, 'g')],
+            [path.join('test/spec', targetDirectory, name + '.js'), new RegExp('describe\\(\'' + specNameFn(name) + suffix + '\'', 'g')]
+          ]);
+          done();
+        });
+      });
+    }
+
+    it('should generate a new class', function(done) {
+      reactor.run({}, function() {
+        generatorTest('Foo', 'class', 'component', 'components', _.capitalize, _.capitalize, '', done);
+      });
+    });
+
+    it('should generate a subcomponent', function(done) {
+      reactor.run({}, function() {
+        var subComponentNameFn = function () { return 'Bar'; };
+        generatorTest('Foo/Bar', 'class', 'component', 'components', subComponentNameFn, subComponentNameFn, '', done);
       });
     });
 
@@ -336,8 +368,8 @@ describe('reactor generator', function() {
 
     it('should generate a new action with tests', function(done) {
       assert.fileContent([
-        ['src/scripts/actions/TestActionCreators.js', /var TestActionCreators/g],
-        ['test/spec/actions/TestActionCreators.js', /require\('actions\/TestActionCreators.js'\)/g],
+        ['src/scripts/actions/TestActionCreators.js', /export default TestActionCreators/g],
+        ['test/spec/actions/TestActionCreators.js', /import TestActionCreators from \'actions\/TestActionCreators\'/g],
         ['test/spec/actions/TestActionCreators.js', /describe\('TestActionCreators'/g]
       ]);
 
@@ -375,8 +407,8 @@ describe('reactor generator', function() {
 
     it('should generate a new store with tests', function(done) {
       assert.fileContent([
-        ['src/scripts/stores/TestStore.js', /var TestStore/g],
-        ['test/spec/stores/TestStore.js', /require\('stores\/TestStore.js'\)/g],
+        ['src/scripts/stores/TestStore.js', /let TestStore/g],
+        ['test/spec/stores/TestStore.js', /import TestStore from 'stores\/TestStore'/g],
         ['test/spec/stores/TestStore.js', /describe\('TestStore'/g]
       ]);
 
